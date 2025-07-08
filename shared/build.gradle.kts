@@ -43,6 +43,8 @@ kotlin {
             implementation(libs.androidx.compose.ui.tooling)
             implementation(libs.androidx.compose.ui.util)
 
+            implementation(libs.google.accompanist.systemuicontroller)
+
             implementation(libs.sqldelight.android.driver)
             // Wav Recorder
             implementation(libs.android.wave.recorder)

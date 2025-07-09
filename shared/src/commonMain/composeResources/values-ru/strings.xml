@@ -65,5 +65,5 @@
     <string name="privacy_url">privacyupdated.html</string>
     <string name="empty_list_title">Нет заметок</string>
     <string name="empty_list_description">Начните записывать свои мысли и голосовые заметки. Нажмите на значок \"+\" в правом нижнем углу, чтобы создать свою первую заметку.</string>
-    <string name="empty_list_description_tablet">Начните записывать свои мысли и голосовые заметки.\n\nНажмите на значок \"+\" в правом нижнем углу, чтобы создать свою первую заметку.</string>
+    <string name="empty_list_description_tablet">Начните записывать свои мысли и голосовые заметки.\nНажмите на значок \"+\" в правом нижнем углу, чтобы создать свою первую заметку.</string>
 </resources>

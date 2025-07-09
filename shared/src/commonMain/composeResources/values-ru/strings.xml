@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Notely Voice</string>
-    <string name="error">Error</string>
-
+    <string name="error">Ошибка</string>
+    <string name="top_bar_back">Назад</string>
+    <string name="top_bar_menu">Меню</string>
+    <string name="confirmation">Подтвердить</string>
+    <string name="confirmation_text">Вы хотите удалить заметку?</string>
+    <string name="recording_confirmation_text">Вы уверены, что хотите удалить запись?</string>
+    <string name="confirmation_delete">Удалить</string>
+    <string name="confirmation_cancel">Отменить</string>
+    <string name="recording_replace_error">У вас уже есть сохраненная запись. Создание новой записи навсегда заменит ее. Вы хотите продолжить?</string>
+    <string name="recording_replace_continue">Продолжить</string>
+    <string name="bottom_navigation_starred">Закладки</string>
+    <string name="bottom_navigation_bullet_list">Маркированный список</string>
+    <string name="bottom_navigation_delete">Удалить заметку</string>
+    <string name="bottom_navigation_hide_keyboard">Скрыть клавиатуру</string>
+    <string name="editing_bold">Жирный</string>
+    <string name="editing_italic">Курсив</string>
+    <string name="editing_underline">Подчеркнутый</string>
+    <string name="editing_align_left">Выровнять по левому краю</string>
+    <string name="editing_align_center">Выравнять по центру</string>
+    <string name="editing_align_right">Выровнять по правому краю</string>
 </resources>

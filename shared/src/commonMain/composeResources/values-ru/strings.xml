@@ -19,6 +19,10 @@
     <string name="editing_italic">Курсив</string>
     <string name="editing_underline">Подчеркнутый</string>
     <string name="editing_align_left">Выровнять по левому краю</string>
-    <string name="editing_align_center">Выравнять по центру</string>
+    <string name="editing_align_center">Выровнять по центру</string>
     <string name="editing_align_right">Выровнять по правому краю</string>
+    <string name="format_bar_text">Формат</string>
+    <string name="format_bar_close">Закрыть</string>
+    <string name="format_bar_title">Заголовок</string>
+    <string name="format_bar_heading">Заголовок</string>
 </resources>

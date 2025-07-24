@@ -138,6 +138,7 @@
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>
     <string name="choose_how_the_app_looks">Choose how the app looks and feels</string>
+    <string name="accessibility">Accessibility</string>
 
     <!-- Onboarding Screen -->
     <string name="onboarding_get_started">Get Started</string>

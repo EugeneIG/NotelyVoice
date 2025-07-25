@@ -152,7 +152,7 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                     navigateToTranscription = {
                         navController.navigateSingleTop(Routes.Transcription)
                     },
-                    navigateToSettingsText = {
+                    onNavigateToSettingsText = {
                         navController.navigateSingleTop(Routes.SettingsText)
                     },
                     editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry)

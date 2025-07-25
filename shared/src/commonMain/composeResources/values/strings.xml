@@ -175,7 +175,7 @@
 
     <!-- Accessibility -->
     <string name="accessibility_example">Example</string>
-    <string name="accessibility_desc">Use the slider to set the preferred writing body size for the notes editor, customise your accessibility.</string>
+    <string name="accessibility_desc">Use the slider to set the preferred writing body size for the notes editor, customise your experience.</string>
     <string name="accessibility_a">A</string>
 
 

@@ -7,13 +7,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
 import com.module.notelycompose.notes.ui.settings.languageCodeMap
 import com.module.notelycompose.platform.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-
-private const val TEXT_SIZE_BODY = 14f
 
 class PreferencesRepository(
     private val dataStore: DataStore<Preferences>

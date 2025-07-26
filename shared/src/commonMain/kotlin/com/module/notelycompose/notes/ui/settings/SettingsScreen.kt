@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -38,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
+import com.module.notelycompose.notes.extension.intBodyFontSizes
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.platform.Theme
@@ -52,21 +55,28 @@ import com.module.notelycompose.resources.transcription_language
 import com.module.notelycompose.resources.language_used_for_voice_transcription
 import com.module.notelycompose.resources.select_language
 import com.module.notelycompose.resources.appearance
-import com.module.notelycompose.resources.cancel
+import com.module.notelycompose.resources.body_text_pt
 import com.module.notelycompose.resources.theme
 import com.module.notelycompose.resources.choose_how_the_app_looks
 import com.module.notelycompose.resources.close
+import com.module.notelycompose.resources.accessibility
+import com.module.notelycompose.resources.body_text_default
+import com.module.notelycompose.resources.body_text_preferred_text
+import com.module.notelycompose.resources.body_text_size
+import com.module.notelycompose.resources.navigate
 
 @Composable
 fun SettingsScreen(
     navigateBack: () -> Unit,
     navigateToLanguages: () -> Unit,
+    navigateToSettingsText: () -> Unit,
     preferencesRepository: PreferencesRepository = koinInject()
 ) {
     val language by preferencesRepository.getDefaultTranscriptionLanguage()
         .collectAsState(languageCodeMap.entries.first().key)
     val uiMode by preferencesRepository.getTheme().collectAsState(Theme.SYSTEM.name)
     val coroutineScope = rememberCoroutineScope()
+    val bodyTextSize = preferencesRepository.getBodyTextSize().collectAsState(TEXT_SIZE_BODY).value
 
     Column(
         modifier = Modifier
@@ -98,6 +108,13 @@ fun SettingsScreen(
                             preferencesRepository.setTheme(it.name)
                         }
                     }
+                )
+            }
+
+            item {
+                AccessibilitySection(
+                    navigateToSettingsText = navigateToSettingsText,
+                    bodyTextSize = bodyTextSize
                 )
             }
         }
@@ -430,6 +447,105 @@ private fun ThemePreview(theme: Theme) {
                         RoundedCornerShape(8.dp)
                     )
             )
+        }
+    }
+}
+
+@Composable
+fun AccessibilitySection(
+    navigateToSettingsText: () -> Unit,
+    bodyTextSize: Float
+) {
+    Text(
+        text = stringResource(Res.string.accessibility),
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Medium,
+        color = LocalCustomColors.current.bodyContentColor,
+        modifier = Modifier.padding(bottom = 12.dp)
+    )
+
+    TextSizeSettingItem(
+        title = stringResource(Res.string.body_text_size),
+        subtitle = stringResource(Res.string.body_text_preferred_text),
+        currentValue = if(bodyTextSize.intBodyFontSizes() == TEXT_SIZE_BODY.toInt()) {
+            stringResource(Res.string.body_text_default)
+        } else {
+            stringResource(Res.string.body_text_pt, bodyTextSize.intBodyFontSizes())
+        },
+        onClick = {
+            navigateToSettingsText()
+        }
+    )
+}
+
+@Composable
+fun TextSizeSettingItem(
+    title: String,
+    subtitle: String,
+    currentValue: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                1.dp,
+                LocalCustomColors.current.settingsBodyBorderColor,
+                RoundedCornerShape(12.dp)
+            )
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .background(LocalCustomColors.current.bodyBackgroundColor)
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = LocalCustomColors.current.bodyContentColor
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = subtitle,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = LocalCustomColors.current.settingsBodyTextColor,
+                    lineHeight = 20.sp
+                )
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = currentValue,
+                    fontSize = 16.sp,
+                    color = LocalCustomColors.current.settingsBodyTextColor,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = stringResource(Res.string.navigate),
+                    tint = Color.Gray,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }

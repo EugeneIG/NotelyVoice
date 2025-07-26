@@ -40,4 +40,10 @@ sealed interface Routes {
     @Serializable
     data object Downloader : Routes
 
+    @Serializable
+    data object SettingsText : Routes
+
+    @Serializable
+    data object NoteSettingsText : Routes
+
 }

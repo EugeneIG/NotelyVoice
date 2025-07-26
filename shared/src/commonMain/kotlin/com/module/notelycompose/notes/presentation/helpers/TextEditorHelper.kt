@@ -14,7 +14,8 @@ class TextEditorHelper {
         newContent: TextFieldValue,
         currentState: EditorPresentationState,
         getFormattedDate: () -> String,
-        updateState: (EditorPresentationState) -> Unit
+        updateState: (EditorPresentationState) -> Unit,
+        bodyTextSize: Float
     ) {
         try {
             val oldText = currentState.content.text
@@ -33,7 +34,7 @@ class TextEditorHelper {
                 if (bulletResult != null) {
                     updateState(
                         bulletResult.copy(
-                            selectionSize = getSizeLabel(newContent, updatedFormats)
+                            selectionSize = getSizeLabel(newContent, updatedFormats, bodyTextSize)
                         )
                     )
                     return
@@ -44,16 +45,18 @@ class TextEditorHelper {
                 currentState.copy(
                     content = newContent,
                     formats = updatedFormats,
-                    selectionSize = getSizeLabel(newContent, updatedFormats),
-                    createdAt = getFormattedDate()
+                    selectionSize = getSizeLabel(newContent, updatedFormats, bodyTextSize),
+                    createdAt = getFormattedDate(),
+                    bodyTextSize = bodyTextSize
                 )
             )
         } catch (e: Exception) {
             updateState(
                 currentState.copy(
                     content = newContent,
-                    selectionSize = getSizeLabel(newContent, currentState.formats),
-                    createdAt = getFormattedDate()
+                    selectionSize = getSizeLabel(newContent, currentState.formats, bodyTextSize),
+                    createdAt = getFormattedDate(),
+                    bodyTextSize = bodyTextSize
                 )
             )
         }
@@ -137,9 +140,11 @@ class TextEditorHelper {
         )
     }
 
+    // TODO: take note of size label and do not commit
     fun getSizeLabel(
         content: TextFieldValue,
-        formats: List<TextPresentationFormat>
+        formats: List<TextPresentationFormat>,
+        bodyTextSize: Float
     ): TextFormatPresentationOption {
         return if (content.selection.start == content.selection.end) {
             TextPresentationFormats.NoSelection
@@ -147,6 +152,7 @@ class TextEditorHelper {
             formats.find { it.range.contains(content.selection.start) }
                 ?.textSize?.let { size ->
                     when (size) {
+                        bodyTextSize -> TextPresentationFormats.Body // custom body text size
                         24f -> TextPresentationFormats.Title
                         20f -> TextPresentationFormats.Heading
                         16f -> TextPresentationFormats.SubHeading

@@ -4,6 +4,7 @@
     <string name="error">Error</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
+    <string name="navigate">Navigate</string>
 
     <!-- TopBar -->
     <string name="top_bar_back">Back</string>
@@ -138,6 +139,11 @@
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>
     <string name="choose_how_the_app_looks">Choose how the app looks and feels</string>
+    <string name="accessibility">Accessibility</string>
+    <string name="body_text_size">Body Text size</string>
+    <string name="body_text_preferred_text">Set your preferred body text size for the notes editor to enhance your writing experience.</string>
+    <string name="body_text_default">Default</string>
+    <string name="body_text_pt">%1$d pt</string>
 
     <!-- Onboarding Screen -->
     <string name="onboarding_get_started">Get Started</string>
@@ -167,6 +173,12 @@
     <string name="language_selection_supported_languages">SUPPORTED LANGUAGES</string>
     <string name="language_selection_search">Search</string>
     <string name="language_selection_select_language">Select Language</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_example">Example %1$d pt</string>
+    <string name="accessibility_desc">Use the slider to set the preferred writing body size for the notes editor, customise your experience.</string>
+    <string name="accessibility_a">A</string>
+    <string name="accessibility_default">Default is 14 pt</string>
 
 
 </resources>

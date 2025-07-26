@@ -26,7 +26,9 @@ import com.module.notelycompose.notes.ui.detail.NoteDetailScreen
 import com.module.notelycompose.notes.ui.list.InfoScreen
 import com.module.notelycompose.notes.ui.list.NoteListScreen
 import com.module.notelycompose.notes.ui.settings.LanguageSelectionScreen
+import com.module.notelycompose.notes.ui.settings.NoteDetailTextSizeScreen
 import com.module.notelycompose.notes.ui.settings.SettingsScreen
+import com.module.notelycompose.notes.ui.settings.SettingsTextSizeScreen
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.notes.ui.theme.MyApplicationTheme
 import com.module.notelycompose.onboarding.data.PreferencesRepository
@@ -121,11 +123,28 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
             composableWithVerticalSlide<Routes.Settings> {
                 SettingsScreen(
                     navigateBack = { navController.popBackStack() },
-                    navigateToLanguages = { navController.navigateSingleTop(Routes.Language)}
+                    navigateToLanguages = { navController.navigateSingleTop(Routes.Language)},
+                    navigateToSettingsText = {
+                        navController.navigateSingleTop(Routes.SettingsText)
+                    }
                 )
             }
             composableWithVerticalSlide<Routes.Language> {
                 LanguageSelectionScreen(
+                    navigateBack = { navController.popBackStack() }
+                )
+            }
+            composableWithVerticalSlide<Routes.NoteSettingsText> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(Routes.DetailsGraph)
+                }
+                NoteDetailTextSizeScreen(
+                    navigateBack = { navController.popBackStack() },
+                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry),
+                )
+            }
+            composableWithVerticalSlide<Routes.SettingsText> {
+                SettingsTextSizeScreen(
                     navigateBack = { navController.popBackStack() }
                 )
             }
@@ -145,7 +164,10 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                     navigateToTranscription = {
                         navController.navigateSingleTop(Routes.Transcription)
                     },
-                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry)
+                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry),
+                    onNavigateToSettingsText = {
+                        navController.navigateSingleTop(Routes.NoteSettingsText)
+                    }
                 )
             }
             composableWithHorizontalSlide<Routes.Transcription> { backStackEntry ->

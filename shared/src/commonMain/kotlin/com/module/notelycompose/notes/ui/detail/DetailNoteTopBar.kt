@@ -117,7 +117,6 @@ fun DetailAndroidNoteTopBar(
                 )
             }
             // Hide dropdown menu
-            // TODO: Implement Export Audio to Folder / Import Audio
             DetailDropDownMenu(
                 onExportAudio = onExportAudio,
                 onImportClick = onImportClick

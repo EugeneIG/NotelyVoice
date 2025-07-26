@@ -26,6 +26,7 @@ import com.module.notelycompose.notes.ui.detail.NoteDetailScreen
 import com.module.notelycompose.notes.ui.list.InfoScreen
 import com.module.notelycompose.notes.ui.list.NoteListScreen
 import com.module.notelycompose.notes.ui.settings.LanguageSelectionScreen
+import com.module.notelycompose.notes.ui.settings.NoteDetailTextSizeScreen
 import com.module.notelycompose.notes.ui.settings.SettingsScreen
 import com.module.notelycompose.notes.ui.settings.SettingsTextSizeScreen
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
@@ -123,12 +124,23 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                 SettingsScreen(
                     navigateBack = { navController.popBackStack() },
                     navigateToLanguages = { navController.navigateSingleTop(Routes.Language)},
-                    navigateToSettingsText = { navController.navigateSingleTop(Routes.SettingsText)}
+                    navigateToSettingsText = {
+                        navController.navigateSingleTop(Routes.SettingsText)
+                    }
                 )
             }
             composableWithVerticalSlide<Routes.Language> {
                 LanguageSelectionScreen(
                     navigateBack = { navController.popBackStack() }
+                )
+            }
+            composableWithVerticalSlide<Routes.NoteSettingsText> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(Routes.DetailsGraph)
+                }
+                NoteDetailTextSizeScreen(
+                    navigateBack = { navController.popBackStack() },
+                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry),
                 )
             }
             composableWithVerticalSlide<Routes.SettingsText> {
@@ -152,7 +164,10 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                     navigateToTranscription = {
                         navController.navigateSingleTop(Routes.Transcription)
                     },
-                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry)
+                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry),
+                    onNavigateToSettingsText = {
+                        navController.navigateSingleTop(Routes.NoteSettingsText)
+                    }
                 )
             }
             composableWithHorizontalSlide<Routes.Transcription> { backStackEntry ->

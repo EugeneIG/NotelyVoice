@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -85,7 +86,7 @@ class TextEditorViewModel(
                 recordingPath = retrievedNote.recordingPath,
                 starred = retrievedNote.starred,
                 createdAt = getFormattedDate(retrievedNote.createdAt),
-                bodyTextSize = preferencesRepository.getBodyTextSize()
+                bodyTextSize = preferencesRepository.getBodyTextSize().first()
             )
         }
     }
@@ -267,7 +268,6 @@ class TextEditorViewModel(
     }
 
     private fun updateContent(newContent: TextFieldValue) {
-        // TODO: Test this to ensure it works
         viewModelScope.launch(Dispatchers.Default) {
             textEditorHelper.updateContent(
                 newContent = newContent,
@@ -276,7 +276,7 @@ class TextEditorViewModel(
                 updateState = { newState ->
                     _editorPresentationState.update { newState }
                 },
-                bodyTextSize = preferencesRepository.getBodyTextSize()
+                bodyTextSize = preferencesRepository.getBodyTextSize().first()
             )
         }
     }

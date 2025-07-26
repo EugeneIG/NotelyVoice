@@ -143,6 +143,7 @@
     <string name="body_text_size">Body Text size</string>
     <string name="body_text_preferred_text">Set your preferred body text size for the notes editor to enhance your writing experience.</string>
     <string name="body_text_default">Default</string>
+    <string name="body_text_pt">%1$d pt</string>
 
     <!-- Onboarding Screen -->
     <string name="onboarding_get_started">Get Started</string>
@@ -174,7 +175,7 @@
     <string name="language_selection_select_language">Select Language</string>
 
     <!-- Accessibility -->
-    <string name="accessibility_example">Example</string>
+    <string name="accessibility_example">Example %1$d pt</string>
     <string name="accessibility_desc">Use the slider to set the preferred writing body size for the notes editor, customise your experience.</string>
     <string name="accessibility_a">A</string>
 

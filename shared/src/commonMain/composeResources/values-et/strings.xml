@@ -120,4 +120,14 @@
     <string name="language_selection_supported_languages">TOETATUD KEELED</string>
     <string name="recording_ui_loading_rotation">laadin vahetust</string>
     <string name="recording_ui_checkmark">märkeruut</string>
+    <string name="navigate">Liigu rakenduses</string>
+    <string name="accessibility">Hõlbustus</string>
+    <string name="body_text_size">Põhiteksti suurus</string>
+    <string name="body_text_preferred_text">Et kirjutamine oleks mugavam, siis vali enda jaoks sobilik põhiteksti suurus.</string>
+    <string name="body_text_default">Vaikimisi tekst</string>
+    <string name="body_text_pt">%1$d pt</string>
+    <string name="accessibility_example">Näidis: %1$d pt</string>
+    <string name="accessibility_desc">Kasutades liugurvalijat, vali enda jaoks sobilik põhiteksti suurus.</string>
+    <string name="accessibility_a">A</string>
+    <string name="accessibility_default">Vaikimisi suurus on 14 pt</string>
 </resources>

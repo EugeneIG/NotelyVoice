@@ -29,20 +29,27 @@ actual class Downloader(
 
 
     actual suspend fun startDownload(url: String, fileName: String) {
-        val request = DownloadManager.Request(url.toUri())
-            .setTitle("Downloading $fileName")
-            .setDestinationInExternalFilesDir(
-                mainContext,
-                Environment.DIRECTORY_DOWNLOADS,
-                fileName
-            )
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
+        try {
+            val request = DownloadManager.Request(url.toUri())
+                .setTitle("Downloading $fileName")
+                .setDestinationInExternalFilesDir(
+                    mainContext,
+                    Environment.DIRECTORY_DOWNLOADS,
+                    fileName
+                )
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
 
-        val downloadManager =
-            mainContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val downloadId = downloadManager.enqueue(request)
+            val downloadManager =
+                mainContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadId = downloadManager.enqueue(request)
 
-        preferencesRepository.setModelDownloadId(downloadId)
+            preferencesRepository.setModelDownloadId(downloadId)
+
+        } catch (e: NullPointerException) {
+            debugPrintln {"Invalid download URL $url: ${e.message}"}
+        } catch (e: Exception) {
+            debugPrintln {"Failed to start download: ${e.message}"}
+        }
     }
 
     actual suspend fun hasRunningDownload(): Boolean {

@@ -130,4 +130,7 @@
     <string name="accessibility_desc">Kasutades liugurvalijat, vali enda jaoks sobilik põhiteksti suurus.</string>
     <string name="accessibility_a">A</string>
     <string name="accessibility_default">Vaikimisi suurus on 14 pt</string>
+    <string name="transcription_dialog_error_got_it">Selge, sain aru</string>
+    <string name="transcription_dialog_error_audio_file_title">Helifail on liiga suur</string>
+    <string name="transcription_dialog_error_audio_file_desc">See fail on liiga suur, et selles nutiseadmes temast märkmeid koostada. Proovi kasutada lühemat salvestust või väiksemat faili.</string>
 </resources>

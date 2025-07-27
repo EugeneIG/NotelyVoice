@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -107,8 +108,9 @@ fun TranscriptionScreen(
                         .padding(8.dp)
                 ) {
                     Text(
-                        if(transcriptionUiState.viewOriginalText) transcriptionUiState.originalText else transcriptionUiState.summarizedText,
-                        color = LocalCustomColors.current.bodyContentColor
+                        text = if(transcriptionUiState.viewOriginalText) transcriptionUiState.originalText else transcriptionUiState.summarizedText,
+                        color = LocalCustomColors.current.bodyContentColor,
+                        style = TextStyle(fontSize = editorState.bodyTextSize.sp)
                     )
                 }
                 if(transcriptionUiState.progress == 0){
@@ -116,7 +118,7 @@ fun TranscriptionScreen(
                         modifier = Modifier.padding(vertical = 12.dp).fillMaxWidth(),
                         strokeCap = StrokeCap.Round
                     )
-                }else if(transcriptionUiState.progress in 1..99){
+                } else if(transcriptionUiState.progress in 1..99){
                    SmoothLinearProgressBar((transcriptionUiState.progress / 100f))
                 }
 //                FloatingActionButton(

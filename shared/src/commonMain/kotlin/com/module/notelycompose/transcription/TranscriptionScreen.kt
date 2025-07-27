@@ -20,17 +20,18 @@ import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -38,7 +39,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavBackStackEntry
 import com.module.notelycompose.notes.presentation.detail.TextEditorViewModel
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.platform.HandlePlatformBackNavigation
@@ -50,9 +50,11 @@ import com.module.notelycompose.resources.top_bar_back
 import com.module.notelycompose.resources.transcription_dialog_append
 import com.module.notelycompose.resources.transcription_dialog_original
 import com.module.notelycompose.resources.transcription_dialog_summarize
+import com.module.notelycompose.resources.transcription_dialog_error_got_it
+import com.module.notelycompose.resources.transcription_dialog_error_audio_file_title
+import com.module.notelycompose.resources.transcription_dialog_error_audio_file_desc
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun TranscriptionScreen(
@@ -185,6 +187,19 @@ fun TranscriptionScreen(
 
     HandlePlatformBackNavigation(enabled = true) {
         navigateBack()
+    }
+
+    if(transcriptionUiState.hasError) {
+        AlertDialog(
+            onDismissRequest = navigateBack,
+            confirmButton = {
+                TextButton(onClick = navigateBack) {
+                    Text(stringResource(Res.string.transcription_dialog_error_got_it))
+                }
+            },
+            title = { Text(stringResource(Res.string.transcription_dialog_error_audio_file_title)) },
+            text = { Text(stringResource(Res.string.transcription_dialog_error_audio_file_desc)) }
+        )
     }
 
 }

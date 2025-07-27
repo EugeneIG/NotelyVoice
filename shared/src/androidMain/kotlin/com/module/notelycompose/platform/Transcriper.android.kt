@@ -95,7 +95,8 @@ actual class Transcriber(
         filePath: String, language: String,
         onProgress : (Int) -> Unit,
         onNewSegment : (Long, Long,String) -> Unit,
-        onComplete : () -> Unit
+        onComplete : () -> Unit,
+        onError : () -> Unit
     ) {
         if (!canTranscribe) {
             return
@@ -126,6 +127,11 @@ actual class Transcriber(
             })
             val elapsed = System.currentTimeMillis() - start
             debugPrintln{"Done ($elapsed ms): \n$text\n"}
+
+        } catch (e: OutOfMemoryError) {
+            onError()
+            debugPrintln{"OutOfMemoryError: File too large to process - ${e.message}\n"}
+            // Handle OOM - maybe show user error message
         } catch (e: Exception) {
             e.printStackTrace()
             debugPrintln{"${e.localizedMessage}\n"}

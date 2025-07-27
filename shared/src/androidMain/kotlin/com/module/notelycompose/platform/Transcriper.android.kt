@@ -131,7 +131,6 @@ actual class Transcriber(
         } catch (e: OutOfMemoryError) {
             onError()
             debugPrintln{"OutOfMemoryError: File too large to process - ${e.message}\n"}
-            // Handle OOM - maybe show user error message
         } catch (e: Exception) {
             e.printStackTrace()
             debugPrintln{"${e.localizedMessage}\n"}

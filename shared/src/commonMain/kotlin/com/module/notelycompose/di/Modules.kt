@@ -18,6 +18,7 @@ import com.module.notelycompose.notes.domain.SearchNotesUseCase
 import com.module.notelycompose.notes.domain.UpdateNoteUseCase
 import com.module.notelycompose.notes.domain.mapper.NoteDomainMapper
 import com.module.notelycompose.notes.domain.mapper.TextFormatMapper
+import com.module.notelycompose.audio.presentation.AudioImportViewModel
 import com.module.notelycompose.notes.presentation.detail.NoteDetailScreenViewModel
 import com.module.notelycompose.notes.presentation.detail.TextEditorViewModel
 import com.module.notelycompose.notes.presentation.helpers.TextEditorHelper
@@ -31,9 +32,9 @@ import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.onboarding.presentation.OnboardingViewModel
 import com.module.notelycompose.platform.presentation.PlatformViewModel
 import com.module.notelycompose.transcription.TranscriptionViewModel
-import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 
@@ -66,15 +67,16 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { OnboardingViewModel(get()) }
-    viewModel { NoteListViewModel(get(), get(), get(), get()) }
-    viewModel { PlatformViewModel(get(), get()) }
-    viewModel { TranscriptionViewModel(get(), get()) }
-    viewModel { TextEditorViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { NoteDetailScreenViewModel(get(), get(),get(), get(), get(), get(), get()) }
-    viewModel { ModelDownloaderViewModel(get(), get()) }
-    viewModel { AudioRecorderViewModel(get(), get()) }
-    viewModel { AudioPlayerViewModel(get(), get()) }
+    viewModelOf(::OnboardingViewModel)
+    viewModelOf(::NoteListViewModel)
+    viewModelOf(::PlatformViewModel)
+    viewModelOf(::TranscriptionViewModel)
+    viewModelOf(::TextEditorViewModel)
+    viewModelOf(::NoteDetailScreenViewModel)
+    viewModelOf(::ModelDownloaderViewModel)
+    viewModelOf(::AudioRecorderViewModel)
+    viewModelOf(::AudioPlayerViewModel)
+    viewModelOf(::AudioImportViewModel)
 }
 
 val useCaseModule = module {

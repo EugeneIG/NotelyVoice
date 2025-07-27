@@ -42,55 +42,57 @@ kotlin {
             implementation(libs.androidx.compose.ui.preview)
             implementation(libs.androidx.compose.ui.tooling)
             implementation(libs.androidx.compose.ui.util)
+            implementation(libs.google.accompanist.systemuicontroller)
+            implementation(libs.sqldelight.android.driver)
 
             implementation(libs.google.accompanist.systemuicontroller)
 
-            implementation(libs.sqldelight.android.driver)
-            // Wav Recorder
-            implementation(libs.android.wave.recorder)
-
-            implementation(libs.kotlinx.serialization.json.v160)
+            implementation(libs.kotlinx.serialization.json)
             implementation(project(":lib"))
-            implementation(libs.activity.compose)
-            // Refactor
-            implementation(libs.koin.android)
+
+            // splash
             implementation(libs.core.splashscreen)
+            implementation(libs.androidx.compose.documentfile)
         }
 
-
         commonMain.dependencies {
-                implementation(libs.sqldelight.runtime)
-                implementation(libs.sqldelight.coroutines)
-                implementation(libs.kotlinx.datetime)
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.material3)
-                implementation(libs.material.icons.core)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines)
+            implementation(libs.kotlinx.datetime)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(libs.material.icons.core)
+            implementation(compose.components.resources)
 
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(libs.compose.vectorize.core)
-                implementation(libs.kotlinx.serialization.json)
+            implementation(compose.components.resources)
+            implementation(libs.compose.vectorize.core)
+            implementation(libs.kotlinx.serialization.json)
 
             // koin
             implementation(libs.koin.core)
             implementation(libs.koin.test)
-            implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+
+            // navigation
+            implementation(libs.navigation.compose)
+
             // logging
             implementation(libs.napier)
+
             // Data store
             implementation(libs.datastore.preferences)
             implementation(libs.datastore)
 
+            implementation(project(":core:audio"))
+        }
 
-            }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
-                compileOnly(libs.jetbrains.atomicfu)
-                api(libs.jetbrains.atomicfu)
-
+            compileOnly(libs.jetbrains.atomicfu)
+            api(libs.jetbrains.atomicfu)
         }
 
         val commonTest by getting {
@@ -98,8 +100,6 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-
-
     }
 
     targets.all {
@@ -111,7 +111,7 @@ kotlin {
     val whisperFrameworkPath = file("${projectDir}/../iosApp/whisper.xcframework")
     iosSimulatorArm64 {
         compilations.getByName("main") {
-            val whisper by cinterops.creating {
+            cinterops.create("whisperSimArm64") {
                 defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
                 compilerOpts(
                     "-I${whisperFrameworkPath}/ios-arm64_x86_64-simulator/whisper.framework/Headers",
@@ -122,7 +122,7 @@ kotlin {
     }
     iosArm64 {
         compilations.getByName("main") {
-            val whisper by cinterops.creating {
+            cinterops.create("whisperArm64") {
                 defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
                 compilerOpts(
                     "-I${whisperFrameworkPath}/ios-arm64/whisper.framework/Headers",
@@ -134,7 +134,7 @@ kotlin {
 
     iosX64 {
         compilations.getByName("main") {
-            val whisper by cinterops.creating {
+            cinterops.create("whisperX64") {
                 defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
                 compilerOpts(
                     "-I${whisperFrameworkPath}/ios-arm64_x86_64-simulator/whisper.framework/Headers",
@@ -143,7 +143,11 @@ kotlin {
             }
         }
     }
-
+}
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.module.notelycompose.resources"
+    generateResClass = always
 }
 sqldelight {
     database("NoteDatabase") {
@@ -152,22 +156,25 @@ sqldelight {
     }
 }
 android {
-    namespace = "com.module.notelycompose"
-    compileSdk = 35
+    namespace = "com.module.notelycompose.android"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    // Removed src/commonMain/resources
+    // sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
-        applicationId = "com.module.notelycompose"
-        minSdk = 26
-        targetSdk = 35
-        versionCode = 11
-        versionName = "1.1.0"
+        applicationId = "com.module.notelycompose.android"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 16
+        versionName = "1.1.5"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.6"
     }
@@ -185,10 +192,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
+    packaging {
+        // Force consistent ordering
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
+//            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -196,6 +208,12 @@ android {
             // uncomment to run on release for testing
             // signingConfig = signingConfigs.getByName("debug")
         }
+    }
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
     }
     ndkVersion = "27.0.12077973"
 }

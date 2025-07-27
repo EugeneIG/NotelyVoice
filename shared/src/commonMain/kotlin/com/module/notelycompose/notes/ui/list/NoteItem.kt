@@ -24,10 +24,10 @@ import com.module.notelycompose.notes.ui.list.model.NoteUiModel
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.resources.vectors.IcArrowUpRight
 import com.module.notelycompose.resources.vectors.Images
-import notelycompose.shared.generated.resources.Res
-import notelycompose.shared.generated.resources.note_item_delete
-import notelycompose.shared.generated.resources.note_item_edit
-import notelycompose.shared.generated.resources.words
+import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.note_item_delete
+import com.module.notelycompose.resources.note_item_edit
+import com.module.notelycompose.resources.words
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -47,11 +47,11 @@ fun NoteItem(
     )
 
         Card(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
                 .clickable {
                     onNoteClick(note.id)
                 },
-            elevation = 4.dp,
+            elevation = 2.dp,
             shape = RoundedCornerShape(28.dp),
             backgroundColor = Color(0xFFD18B60)
         ) {

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FloatingActionButtonDefaults.elevation
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -28,8 +29,8 @@ import com.module.notelycompose.notes.presentation.list.NoteListViewModel
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.platform.presentation.PlatformUiState
 import kotlinx.coroutines.launch
-import notelycompose.shared.generated.resources.Res
-import notelycompose.shared.generated.resources.note_list_add_note
+import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.note_list_add_note
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -62,7 +63,8 @@ fun NoteListScreen(
                     onClick = {
                         navigateToNoteDetails("0")
                     },
-                    backgroundColor = LocalCustomColors.current.backgroundViewColor
+                    backgroundColor = LocalCustomColors.current.backgroundViewColor,
+                    elevation = elevation(defaultElevation = 2.dp)
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

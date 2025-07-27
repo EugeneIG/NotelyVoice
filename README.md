@@ -3,6 +3,7 @@
 [![Kotlin](https://img.shields.io/badge/kotlin-2.1.21-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/compose-1.8.0-blue.svg?logo=jetpackcompose)](https://www.jetbrains.com/lp/compose-multiplatform)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+[![](https://hosted.weblate.org/widget/notelyvoice/svg-badge.svg)](https://hosted.weblate.org/projects/notelyvoice/)
 
 A completely free modern, cross-platform note-taking application with powerful Whisper AI Voice to Text capabilities built with Compose Multiplatform.
 
@@ -13,13 +14,17 @@ Perfect for students capturing lectures, professionals documenting meetings, doc
 <a href="https://f-droid.org/en/packages/com.module.notelycompose.android">
     <img alt="Get it on F-Droid" height="64" src="https://raw.githubusercontent.com/anwilli5/coin-collection-android-US/main/images/fdroid-repo-badge.png" />
 </a>
-<a href="https://play.google.com/store/apps/details?id=com.module.notelycompose.android">
+<a href="https://play.google.com/store/apps/details?id=com.module.notelycompose.android&hl=en&gl=us">
     <img alt="Get it on Google Play" height="64" src="https://raw.githubusercontent.com/anwilli5/coin-collection-android-US/main/images/google-play-badge.png" />
 </a>
 <a href="https://apps.apple.com/us/app/notely-voice-speech-to-text/id6745835691">
     <img alt="Available at Appstore" height="64" src="https://dbsqho33cgp4y.cloudfront.net/github/app-store-badge.png" />
 </a>
-</div><br/>
+</div>
+
+## Translations
+This project uses [Weblate](https://hosted.weblate.org/projects/notelyvoice/) for translation management. Help us translate NotelyVoice into your language!
+<br/>
 
 ## Screenshots
 
@@ -72,9 +77,9 @@ Perfect for students capturing lectures, professionals documenting meetings, doc
 - **[Kotlin](https://kotlinlang.org/)** - Official programming language for Android development
 - **[Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)** - UI toolkit for building native applications
 - **[Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)** - For asynchronous programming
-- **[Clean Architecture](https://developer.android.com/topic/architecture)** - Ensures scalability and testability
+- **[Android Architecture](https://developer.android.com/topic/architecture)** - Ensures scalability and testability
 - **[ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)** - Stores and manages UI-related data
-- **[Dagger-Hilt](https://dagger.dev/hilt/)** - Dependency injection for Android
+- **[Koin](https://insert-koin.io/docs/quickstart/android/)** - Dependency injection for Android
 - **[Material 3](https://m3.material.io/)** - Design system for modern UI
 - **[Whisper AI](https://openai.com/index/whisper/)** - Human level robustness speech recognition
 - **Native Compose Navigation** - No third-party navigation libraries
@@ -82,7 +87,7 @@ Perfect for students capturing lectures, professionals documenting meetings, doc
 
 ## Architecture
 
-Notely is built with Clean Architecture principles, separating the app into distinct layers:
+Notely is built with Android Architecture principles, separating the app into distinct layers:
 
 - **UI Layer**: Compose UI components
 - **Presentation Layer**: Platform Independent ViewModels

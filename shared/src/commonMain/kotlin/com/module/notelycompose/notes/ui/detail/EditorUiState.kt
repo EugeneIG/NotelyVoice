@@ -2,11 +2,10 @@ package com.module.notelycompose.notes.ui.detail
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-
-private const val TEXT_SIZE_TITLE = 24f
-private const val TEXT_SIZE_HEADING = 20f
-private const val TEXT_SIZE_SUBHEADING = 16f
-private const val TEXT_SIZE_BODY = 14f
+import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
+import com.module.notelycompose.notes.extension.TEXT_SIZE_HEADING
+import com.module.notelycompose.notes.extension.TEXT_SIZE_SUBHEADING
+import com.module.notelycompose.notes.extension.TEXT_SIZE_TITLE
 
 data class EditorUiState(
     val content: TextFieldValue = TextFieldValue(""),
@@ -15,7 +14,8 @@ data class EditorUiState(
     val selectionSize: TextFormatUiOption = TextUiFormats.Body,
     val recording: RecordingPathUiModel,
     val isStarred: Boolean,
-    val createdAt: String
+    val createdAt: String,
+    val bodyTextSize: Float
 )
 
 data class TextUiFormat(

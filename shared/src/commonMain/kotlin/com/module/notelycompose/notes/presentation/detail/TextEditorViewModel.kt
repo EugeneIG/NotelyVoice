@@ -1,10 +1,11 @@
 package com.module.notelycompose.notes.presentation.detail
 
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.module.notelycompose.platform.deleteFile
+import audio.utils.deleteFile
 import com.module.notelycompose.notes.domain.DeleteNoteById
 import com.module.notelycompose.notes.domain.GetLastNote
 import com.module.notelycompose.notes.domain.GetNoteById
@@ -20,11 +21,13 @@ import com.module.notelycompose.notes.presentation.mapper.EditorPresentationToUi
 import com.module.notelycompose.notes.presentation.mapper.TextAlignPresentationMapper
 import com.module.notelycompose.notes.presentation.mapper.TextFormatPresentationMapper
 import com.module.notelycompose.notes.ui.detail.EditorUiState
-import kotlinx.coroutines.CoroutineScope
+import com.module.notelycompose.onboarding.data.PreferencesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,7 +38,7 @@ import kotlinx.datetime.toLocalDateTime
 
 private const val ID_NOT_SET = 0L
 
-class TextEditorViewModel (
+class TextEditorViewModel(
     private val getNoteByIdUseCase: GetNoteById,
     private val insertNoteUseCase: InsertNoteUseCase,
     private val deleteNoteUseCase: DeleteNoteById,
@@ -44,12 +47,15 @@ class TextEditorViewModel (
     private val editorPresentationToUiStateMapper: EditorPresentationToUiStateMapper,
     private val textFormatPresentationMapper: TextFormatPresentationMapper,
     private val textAlignPresentationMapper: TextAlignPresentationMapper,
-    private val textEditorHelper: TextEditorHelper
-) :ViewModel(){
+    private val textEditorHelper: TextEditorHelper,
+    private val preferencesRepository: PreferencesRepository
+) : ViewModel() {
 
     private val _editorPresentationState = MutableStateFlow(EditorPresentationState())
     val editorPresentationState: StateFlow<EditorPresentationState> = _editorPresentationState
     private var _currentNoteId = MutableStateFlow<Long?>(ID_NOT_SET)
+
+    internal val currentNoteId: StateFlow<Long?> = _currentNoteId.asStateFlow()
     private val _noteIdTrigger = MutableStateFlow<Long?>(null)
 
     init {
@@ -68,16 +74,21 @@ class TextEditorViewModel (
     }
 
     private fun processNote(retrievedNote: NoteDomainModel) {
-        loadNote(
-            content = retrievedNote.content,
-            formats = retrievedNote.formatting.map {
-                textFormatPresentationMapper.mapToPresentationModel(it) },
-            textAlign = textAlignPresentationMapper.mapToComposeTextAlign(
-                retrievedNote.textAlign),
-            recordingPath = retrievedNote.recordingPath,
-            starred = retrievedNote.starred,
-            createdAt = getFormattedDate(retrievedNote.createdAt)
-        )
+        viewModelScope.launch {
+            loadNote(
+                content = retrievedNote.content,
+                formats = retrievedNote.formatting.map {
+                    textFormatPresentationMapper.mapToPresentationModel(it)
+                },
+                textAlign = textAlignPresentationMapper.mapToComposeTextAlign(
+                    retrievedNote.textAlign
+                ),
+                recordingPath = retrievedNote.recordingPath,
+                starred = retrievedNote.starred,
+                createdAt = getFormattedDate(retrievedNote.createdAt),
+                bodyTextSize = preferencesRepository.getBodyTextSize().first()
+            )
+        }
     }
 
     fun onGetNoteById(id: String) {
@@ -128,7 +139,8 @@ class TextEditorViewModel (
         textAlign: TextAlign,
         recordingPath: String,
         starred: Boolean,
-        createdAt: String
+        createdAt: String,
+        bodyTextSize: Float
     ) {
         _editorPresentationState.update {
             it.copy(
@@ -137,7 +149,8 @@ class TextEditorViewModel (
                 textAlign = textAlign,
                 recording = recordingPath(recordingPath),
                 starred = starred,
-                createdAt = createdAt
+                createdAt = createdAt,
+                bodyTextSize = bodyTextSize
             )
         }
     }
@@ -213,7 +226,8 @@ class TextEditorViewModel (
     }
 
     private fun getFormattedDate(
-        createdAt: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        createdAt: LocalDateTime = Clock.System.now()
+            .toLocalDateTime(TimeZone.currentSystemDefault())
     ): String {
         return createdAt.formattedDate()
     }
@@ -239,6 +253,7 @@ class TextEditorViewModel (
                     recordingPath = recordingPath
                 )
             }
+
             else -> {
                 insertNote(
                     title = title,
@@ -253,17 +268,21 @@ class TextEditorViewModel (
     }
 
     private fun updateContent(newContent: TextFieldValue) {
-        textEditorHelper.updateContent(
-            newContent = newContent,
-            currentState = _editorPresentationState.value,
-            getFormattedDate = { getFormattedDate() },
-            updateState = { newState ->
-                _editorPresentationState.update { newState }
-            }
-        )
+        viewModelScope.launch(Dispatchers.Default) {
+            textEditorHelper.updateContent(
+                newContent = newContent,
+                currentState = _editorPresentationState.value,
+                getFormattedDate = { getFormattedDate() },
+                updateState = { newState ->
+                    _editorPresentationState.update { newState }
+                },
+                bodyTextSize = preferencesRepository.getBodyTextSize().first()
+            )
+        }
     }
 
     fun onToggleBold() {
+        normaliseSelection()
         textEditorHelper.toggleFormat(
             currentState = _editorPresentationState.value,
             transform = { it.copy(isBold = !it.isBold) },
@@ -275,6 +294,7 @@ class TextEditorViewModel (
     }
 
     fun onToggleItalic() {
+        normaliseSelection()
         textEditorHelper.toggleFormat(
             currentState = _editorPresentationState.value,
             transform = { it.copy(isItalic = !it.isItalic) },
@@ -286,6 +306,7 @@ class TextEditorViewModel (
     }
 
     fun setTextSize(size: Float) {
+        normaliseSelection()
         textEditorHelper.toggleFormat(
             currentState = _editorPresentationState.value,
             transform = { it.copy(textSize = size) },
@@ -297,6 +318,7 @@ class TextEditorViewModel (
     }
 
     fun onToggleUnderline() {
+        normaliseSelection()
         textEditorHelper.toggleFormat(
             currentState = _editorPresentationState.value,
             transform = { it.copy(isUnderline = !it.isUnderline) },
@@ -316,6 +338,15 @@ class TextEditorViewModel (
         )
     }
 
+    private fun normaliseSelection() {
+        textEditorHelper.normaliseSelection(
+            currentState = _editorPresentationState.value,
+            updateState = { newState ->
+                _editorPresentationState.update { newState }
+            }
+        )
+    }
+
     fun onSetAlignment(alignment: TextAlign) {
         _editorPresentationState.update { it.copy(textAlign = alignment) }
         val content = _editorPresentationState.value.content
@@ -323,7 +354,7 @@ class TextEditorViewModel (
         val textAlign = _editorPresentationState.value.textAlign
         val starred = _editorPresentationState.value.starred
         val recordingPath = _editorPresentationState.value.recording.recordingPath
-        if(content.text.isNotEmpty()) {
+        if (content.text.isNotEmpty()) {
             createOrUpdateEvent(
                 title = content.text,
                 content = content.text,

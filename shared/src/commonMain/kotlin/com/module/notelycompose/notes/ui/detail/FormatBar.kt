@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
-import notelycompose.shared.generated.resources.Res
-import notelycompose.shared.generated.resources.format_bar_text
-import notelycompose.shared.generated.resources.format_bar_close
+import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.format_bar_text
+import com.module.notelycompose.resources.format_bar_close
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -34,7 +35,8 @@ fun FormatBar(
     onToggleBold: () -> Unit,
     onToggleItalic: () -> Unit,
     onToggleUnderline: () -> Unit,
-    onSetAlignment: (alignment: TextAlign) -> Unit
+    onSetAlignment: (alignment: TextAlign) -> Unit,
+    onNavigateToSettingsText: () -> Unit
 ) {
     Surface(
         modifier = modifier,
@@ -53,12 +55,27 @@ fun FormatBar(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = stringResource(Res.string.format_bar_text),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = LocalCustomColors.current.bottomFormattingContentColor
-                    )
+                    Row {
+                        Text(
+                            text = stringResource(Res.string.format_bar_text),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = LocalCustomColors.current.bottomFormattingContentColor
+                        )
+                        Spacer(
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Outlined.Settings,
+                            tint = Color.DarkGray,
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable {
+                                    onNavigateToSettingsText()
+                                },
+                            contentDescription = ""
+                        )
+                    }
                     IconButton(onClick = onClose) {
                         Icon(
                             imageVector = Icons.Rounded.Close,

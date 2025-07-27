@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -38,59 +39,86 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
+import com.module.notelycompose.notes.extension.intBodyFontSizes
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.platform.Theme
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-
+import org.jetbrains.compose.resources.stringResource
+import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.settings
+import com.module.notelycompose.resources.customize_your_experience
+import com.module.notelycompose.resources.language_and_region
+import com.module.notelycompose.resources.transcription_language
+import com.module.notelycompose.resources.language_used_for_voice_transcription
+import com.module.notelycompose.resources.select_language
+import com.module.notelycompose.resources.appearance
+import com.module.notelycompose.resources.body_text_pt
+import com.module.notelycompose.resources.theme
+import com.module.notelycompose.resources.choose_how_the_app_looks
+import com.module.notelycompose.resources.close
+import com.module.notelycompose.resources.accessibility
+import com.module.notelycompose.resources.body_text_default
+import com.module.notelycompose.resources.body_text_preferred_text
+import com.module.notelycompose.resources.body_text_size
+import com.module.notelycompose.resources.navigate
 
 @Composable
 fun SettingsScreen(
     navigateBack: () -> Unit,
     navigateToLanguages: () -> Unit,
+    navigateToSettingsText: () -> Unit,
     preferencesRepository: PreferencesRepository = koinInject()
 ) {
     val language by preferencesRepository.getDefaultTranscriptionLanguage()
         .collectAsState(languageCodeMap.entries.first().key)
     val uiMode by preferencesRepository.getTheme().collectAsState(Theme.SYSTEM.name)
     val coroutineScope = rememberCoroutineScope()
+    val bodyTextSize = preferencesRepository.getBodyTextSize().collectAsState(TEXT_SIZE_BODY).value
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(LocalCustomColors.current.bodyBackgroundColor)
+    ) {
+        // Header
+        SettingsHeader(
+            onDismiss = navigateBack
+        )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(LocalCustomColors.current.bodyBackgroundColor)
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(24.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            // Header
-            SettingsHeader(
-                onDismiss = navigateBack
-            )
+            item {
+                LanguageRegionSection(
+                    navigateToLanguages = navigateToLanguages,
+                    selectedLanguage = language
+                )
+            }
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(24.dp),
-                verticalArrangement = Arrangement.spacedBy(32.dp)
-            ) {
-                item {
-                    LanguageRegionSection(
-                        navigateToLanguages = navigateToLanguages,
-                        selectedLanguage = language
-                    )
-                }
-
-                item {
-                    AppearanceSection(
-                        selectedTheme = Theme.valueOf(uiMode),
-                        onThemeSelected = {
-                            coroutineScope.launch {
-                                preferencesRepository.setTheme(it.name)
-                            }
+            item {
+                AppearanceSection(
+                    selectedTheme = Theme.valueOf(uiMode),
+                    onThemeSelected = {
+                        coroutineScope.launch {
+                            preferencesRepository.setTheme(it.name)
                         }
-                    )
-                }
+                    }
+                )
+            }
+
+            item {
+                AccessibilitySection(
+                    navigateToSettingsText = navigateToSettingsText,
+                    bodyTextSize = bodyTextSize
+                )
             }
         }
+    }
 }
 
 @Composable
@@ -106,13 +134,13 @@ private fun SettingsHeader(
     ) {
         Column {
             Text(
-                text = "Settings",
+                text = stringResource(Res.string.settings),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = LocalCustomColors.current.bodyContentColor
             )
             Text(
-                text = "Customize your experience",
+                text = stringResource(Res.string.customize_your_experience),
                 fontSize = 16.sp,
                 color = LocalCustomColors.current.bodyContentColor,
                 modifier = Modifier.padding(top = 4.dp)
@@ -130,7 +158,7 @@ private fun SettingsHeader(
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Close",
+                contentDescription = stringResource(Res.string.close),
                 tint = LocalCustomColors.current.settingCancelTextColor
             )
         }
@@ -144,7 +172,7 @@ private fun LanguageRegionSection(
 ) {
     Column {
         Text(
-            text = "Language & Region",
+            text = stringResource(Res.string.language_and_region),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = LocalCustomColors.current.bodyContentColor,
@@ -167,7 +195,7 @@ fun TranscriptionLanguageItem(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Transcription Language",
+            text = stringResource(Res.string.transcription_language),
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             color = LocalCustomColors.current.bodyContentColor,
@@ -175,7 +203,7 @@ fun TranscriptionLanguageItem(
         )
 
         Text(
-            text = "Language used for voice transcription",
+            text = stringResource(Res.string.language_used_for_voice_transcription),
             fontSize = 14.sp,
             color = LocalCustomColors.current.bodyContentColor,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -233,7 +261,7 @@ fun TranscriptionLanguageItem(
 
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
-                    contentDescription = "Select language",
+                    contentDescription = stringResource(Res.string.select_language),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(20.dp)
                 )
@@ -249,7 +277,7 @@ private fun AppearanceSection(
 ) {
     Column {
         Text(
-            text = "Appearance",
+            text = stringResource(Res.string.appearance),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = LocalCustomColors.current.bodyContentColor,
@@ -270,7 +298,7 @@ private fun ThemeSection(
 ) {
     Column {
         Text(
-            text = "Theme",
+            text = stringResource(Res.string.theme),
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             color = LocalCustomColors.current.bodyContentColor,
@@ -278,7 +306,7 @@ private fun ThemeSection(
         )
 
         Text(
-            text = "Choose how the app looks and feels",
+            text = stringResource(Res.string.choose_how_the_app_looks),
             fontSize = 14.sp,
             color = LocalCustomColors.current.bodyContentColor,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -419,6 +447,105 @@ private fun ThemePreview(theme: Theme) {
                         RoundedCornerShape(8.dp)
                     )
             )
+        }
+    }
+}
+
+@Composable
+fun AccessibilitySection(
+    navigateToSettingsText: () -> Unit,
+    bodyTextSize: Float
+) {
+    Text(
+        text = stringResource(Res.string.accessibility),
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Medium,
+        color = LocalCustomColors.current.bodyContentColor,
+        modifier = Modifier.padding(bottom = 12.dp)
+    )
+
+    TextSizeSettingItem(
+        title = stringResource(Res.string.body_text_size),
+        subtitle = stringResource(Res.string.body_text_preferred_text),
+        currentValue = if(bodyTextSize.intBodyFontSizes() == TEXT_SIZE_BODY.toInt()) {
+            stringResource(Res.string.body_text_default)
+        } else {
+            stringResource(Res.string.body_text_pt, bodyTextSize.intBodyFontSizes())
+        },
+        onClick = {
+            navigateToSettingsText()
+        }
+    )
+}
+
+@Composable
+fun TextSizeSettingItem(
+    title: String,
+    subtitle: String,
+    currentValue: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                1.dp,
+                LocalCustomColors.current.settingsBodyBorderColor,
+                RoundedCornerShape(12.dp)
+            )
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .background(LocalCustomColors.current.bodyBackgroundColor)
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = LocalCustomColors.current.bodyContentColor
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = subtitle,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = LocalCustomColors.current.settingsBodyTextColor,
+                    lineHeight = 20.sp
+                )
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = currentValue,
+                    fontSize = 16.sp,
+                    color = LocalCustomColors.current.settingsBodyTextColor,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = stringResource(Res.string.navigate),
+                    tint = Color.Gray,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }

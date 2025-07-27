@@ -6,16 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +24,8 @@ import androidx.compose.material.DismissDirection
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FloatingActionButtonDefaults.elevation
+import androidx.compose.material.FloatingActionButtonElevation
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SwipeToDismiss
@@ -36,9 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,28 +62,28 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.module.notelycompose.audio.presentation.AudioPlayerViewModel
 import com.module.notelycompose.audio.ui.player.PlatformAudioPlayerUi
 import com.module.notelycompose.audio.ui.player.model.AudioPlayerUiState
 import com.module.notelycompose.modelDownloader.DownloaderDialog
 import com.module.notelycompose.modelDownloader.DownloaderEffect
 import com.module.notelycompose.modelDownloader.ModelDownloaderViewModel
-import com.module.notelycompose.notes.presentation.detail.NoteDetailScreenViewModel
+import com.module.notelycompose.audio.presentation.AudioImportViewModel
+import com.module.notelycompose.audio.ui.importing.ImportingAudioStateHost
 import com.module.notelycompose.notes.presentation.detail.TextEditorViewModel
 import com.module.notelycompose.notes.ui.share.ShareDialog
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.platform.presentation.PlatformViewModel
+import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.confirmation_cancel
+import com.module.notelycompose.resources.download_dialog_error
+import com.module.notelycompose.resources.ic_transcription
+import com.module.notelycompose.resources.note_detail_recorder
+import com.module.notelycompose.resources.transcription_icon
 import com.module.notelycompose.resources.vectors.IcRecorder
 import com.module.notelycompose.resources.vectors.Images
 import kotlinx.coroutines.launch
-import notelycompose.shared.generated.resources.Res
-import notelycompose.shared.generated.resources.confirmation_cancel
-import notelycompose.shared.generated.resources.download_dialog_error
-import notelycompose.shared.generated.resources.ic_transcription
-import notelycompose.shared.generated.resources.note_detail_recorder
-import notelycompose.shared.generated.resources.transcription_icon
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -95,20 +91,24 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteDetailScreen(
-    noteId:String,
+    noteId: String,
     navigateBack: () -> Unit,
-    navigateToRecorder: () -> Unit,
+    navigateToRecorder: (noteId: String) -> Unit,
     navigateToTranscription: () -> Unit,
+    onNavigateToSettingsText: () -> Unit,
     audioPlayerViewModel: AudioPlayerViewModel = koinViewModel(),
     downloaderViewModel: ModelDownloaderViewModel = koinViewModel(),
     platformViewModel: PlatformViewModel = koinViewModel(),
+    audioImportViewModel: AudioImportViewModel = koinViewModel(),
     editorViewModel: TextEditorViewModel
 ) {
-    val downloaderUiState by downloaderViewModel.uiState.collectAsState()
-    val editorState = editorViewModel.editorPresentationState.collectAsState().value
+    val currentNoteId by editorViewModel.currentNoteId.collectAsStateWithLifecycle()
+    val importingState by audioImportViewModel.importingAudioState.collectAsStateWithLifecycle()
+    val downloaderUiState by downloaderViewModel.uiState.collectAsStateWithLifecycle()
+    val editorState = editorViewModel.editorPresentationState.collectAsStateWithLifecycle().value
         .let { editorViewModel.onGetUiState(it) }
 
-    val audioPlayerUiState = audioPlayerViewModel.uiState.collectAsState().value
+    val audioPlayerUiState = audioPlayerViewModel.uiState.collectAsStateWithLifecycle().value
         .let { audioPlayerViewModel.onGetUiState(it) }
 
     var showFormatBar by remember { mutableStateOf(false) }
@@ -120,12 +120,9 @@ fun NoteDetailScreen(
     var isTextFieldFocused by remember { mutableStateOf(false) }
     var showDownloadQuestionDialog by remember { mutableStateOf(false) }
     var showExistingRecordConfirmDialog by remember { mutableStateOf(false) }
-    val coroutineScope = rememberCoroutineScope()
-
-
 
     LaunchedEffect(Unit) {
-        if(noteId.toLong() > 0L) {
+        if (noteId.toLong() > 0L) {
             editorViewModel.onGetNoteById(noteId)
         }
         downloaderViewModel.effects.collect {
@@ -135,16 +132,19 @@ fun NoteDetailScreen(
                     showDownloadQuestionDialog = false
                     showLoadingDialog = false
                 }
+
                 is DownloaderEffect.ErrorEffect -> {
                     showDownloadDialog = false
                     showErrorDialog = true
                     showLoadingDialog = false
                 }
+
                 is DownloaderEffect.ModelsAreReady -> {
                     showDownloadDialog = false
                     showLoadingDialog = false
                     navigateToTranscription()
                 }
+
                 is DownloaderEffect.AskForUserAcceptance -> {
                     showDownloadQuestionDialog = true
                     showLoadingDialog = false
@@ -163,12 +163,20 @@ fun NoteDetailScreen(
                 onNavigateBack = navigateBack,
                 onShare = {
                     showShareDialog = true
-                }
+                },
+                onExportAudio = {
+                    platformViewModel.onExportAudio(editorState.recording.recordingPath)
+                },
+                onImportClick = {
+                    audioPlayerViewModel.releasePlayer()
+                    audioImportViewModel.importAudio()
+                },
+                isRecordingExist = editorState.recording.isRecordingExist
             )
         },
         floatingActionButton = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                if(editorState.recording.isRecordingExist) {
+                if (editorState.recording.isRecordingExist) {
                     FloatingActionButton(
                         modifier = Modifier.border(
                             width = 1.dp,
@@ -176,7 +184,8 @@ fun NoteDetailScreen(
                             shape = CircleShape
                         ),
                         backgroundColor = LocalCustomColors.current.bodyBackgroundColor,
-                        onClick = { downloaderViewModel.checkTranscriptionAvailability() }
+                        onClick = { downloaderViewModel.checkTranscriptionAvailability() },
+                        elevation = elevation(defaultElevation = 2.dp)
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_transcription),
@@ -194,12 +203,13 @@ fun NoteDetailScreen(
                     ),
                     backgroundColor = LocalCustomColors.current.bodyBackgroundColor,
                     onClick = {
-                        if(!editorState.recording.isRecordingExist) {
-                            navigateToRecorder()
+                        if (!editorState.recording.isRecordingExist) {
+                            navigateToRecorder("$currentNoteId")
                         } else {
                             showExistingRecordConfirmDialog = true
                         }
-                    }
+                    },
+                    elevation = elevation(defaultElevation = 2.dp)
                 ) {
                     Icon(
                         imageVector = Images.Icons.IcRecorder,
@@ -218,24 +228,26 @@ fun NoteDetailScreen(
                 showFormatBar = showFormatBar,
                 textFieldFocusRequester = focusRequester,
                 onShowTextFormatBar = { showFormatBar = it },
-                editorViewModel = editorViewModel
+                editorViewModel = editorViewModel,
+                navigateBack = navigateBack,
+                onNavigateToSettingsText = onNavigateToSettingsText
             )
         }
     ) { paddingValues ->
 
-            NoteContent(
-                paddingValues = paddingValues,
-                newNoteDateString = editorState.createdAt,
-                editorState = editorState,
-                showFormatBar = showFormatBar,
-                focusRequester = focusRequester,
-                audioPlayerUiState = audioPlayerUiState,
-                textEditorViewModel = editorViewModel,
-                audioPlayerViewModel = audioPlayerViewModel,
-                onFocusChange = {
-                    isTextFieldFocused = it
-                },
-                )
+        NoteContent(
+            paddingValues = paddingValues,
+            newNoteDateString = editorState.createdAt,
+            editorState = editorState,
+            showFormatBar = showFormatBar,
+            focusRequester = focusRequester,
+            audioPlayerUiState = audioPlayerUiState,
+            textEditorViewModel = editorViewModel,
+            audioPlayerViewModel = audioPlayerViewModel,
+            onFocusChange = {
+                isTextFieldFocused = it
+            },
+        )
     }
 
 
@@ -286,8 +298,9 @@ fun NoteDetailScreen(
             showExistingRecordConfirmDialog = false
         },
         onConfirm = {
-            navigateToRecorder()
-        }
+            navigateToRecorder("$currentNoteId")
+        },
+        option = RecordingConfirmationUiModel.Record
     )
 
     if (showShareDialog) {
@@ -302,7 +315,11 @@ fun NoteDetailScreen(
         )
     }
 
-
+    ImportingAudioStateHost(
+        state = importingState,
+        onSuccess = editorViewModel::onUpdateRecordingPath,
+        onRelease = audioImportViewModel::releaseState
+    )
 }
 
 
@@ -315,7 +332,7 @@ private fun NoteContent(
     editorState: EditorUiState,
     showFormatBar: Boolean,
     focusRequester: FocusRequester,
-    onFocusChange:(Boolean)->Unit,
+    onFocusChange: (Boolean) -> Unit,
     audioPlayerUiState: AudioPlayerUiState,
     textEditorViewModel: TextEditorViewModel,
     audioPlayerViewModel: AudioPlayerViewModel
@@ -327,7 +344,6 @@ private fun NoteContent(
     LaunchedEffect(editorState.content) {
         scrollState.animateScrollTo(scrollState.maxValue)
     }
-
 
     Column(
         modifier = Modifier
@@ -387,7 +403,7 @@ private fun NoteContent(
             }
 
             NoteEditor(
-                modifier= Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier.fillMaxWidth().weight(1f),
                 editorState = editorState,
                 showFormatBar = showFormatBar,
                 focusRequester = focusRequester,
@@ -427,7 +443,7 @@ private fun NoteEditor(
     editorState: EditorUiState,
     showFormatBar: Boolean,
     focusRequester: FocusRequester,
-    onFocusChange:(Boolean)->Unit,
+    onFocusChange: (Boolean) -> Unit,
     textEditorViewModel: TextEditorViewModel
 ) {
 
@@ -458,14 +474,15 @@ private fun NoteEditor(
         onValueChange = textEditorViewModel::onUpdateContent,
         modifier =
             modifier
-            .focusRequester(focusRequester)
-            .padding(horizontal = 16.dp)
-            .onFocusChanged {
-                onFocusChange(it.isFocused)
-            },
+                .focusRequester(focusRequester)
+                .padding(horizontal = 16.dp)
+                .onFocusChanged {
+                    onFocusChange(it.isFocused)
+                },
         textStyle = TextStyle(
             color = LocalCustomColors.current.bodyContentColor,
-            textAlign = editorState.textAlign
+            textAlign = editorState.textAlign,
+            fontSize = editorState.bodyTextSize.sp
         ),
         cursorBrush = SolidColor(LocalCustomColors.current.bodyContentColor),
         readOnly = showFormatBar,

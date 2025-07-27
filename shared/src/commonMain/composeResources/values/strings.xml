@@ -143,7 +143,7 @@
     <string name="theme">Theme</string>
     <string name="choose_how_the_app_looks">Choose how the app looks and feels</string>
     <string name="accessibility">Accessibility</string>
-    <string name="body_text_size">Body Text size</string>
+    <string name="body_text_size">Body text size</string>
     <string name="body_text_preferred_text">Set your preferred body text size for the notes editor to enhance your writing experience.</string>
     <string name="body_text_default">Default</string>
     <string name="body_text_pt">%1$d pt</string>

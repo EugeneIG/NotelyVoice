@@ -97,6 +97,9 @@
     <string name="transcription_dialog_append">Append</string>
     <string name="transcription_dialog_summarize">Summarize</string>
     <string name="transcription_dialog_original">Original</string>
+    <string name="transcription_dialog_error_got_it">Got it</string>
+    <string name="transcription_dialog_error_audio_file_title">Audio file too large</string>
+    <string name="transcription_dialog_error_audio_file_desc">This audio file is too big to transcribe on your device. Try using a shorter recording or a smaller file size.</string>
 
     <!-- Download Dialog -->
     <string name="download_dialog_error">Error while downloading</string>
@@ -140,7 +143,7 @@
     <string name="theme">Theme</string>
     <string name="choose_how_the_app_looks">Choose how the app looks and feels</string>
     <string name="accessibility">Accessibility</string>
-    <string name="body_text_size">Body Text size</string>
+    <string name="body_text_size">Body text size</string>
     <string name="body_text_preferred_text">Set your preferred body text size for the notes editor to enhance your writing experience.</string>
     <string name="body_text_default">Default</string>
     <string name="body_text_pt">%1$d pt</string>

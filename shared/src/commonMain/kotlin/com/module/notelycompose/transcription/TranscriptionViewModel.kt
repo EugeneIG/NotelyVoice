@@ -69,6 +69,16 @@ class TranscriptionViewModel(
                                 inTranscription = false
                             )
                         }
+                    },
+                    onError = {
+                        debugPrintln{"\n error ========================= "}
+                        _uiState.update {current ->
+                            current.copy(
+                                inTranscription = false,
+                                progress = 100,
+                                hasError = true
+                            )
+                        }
                     })
             }
         }

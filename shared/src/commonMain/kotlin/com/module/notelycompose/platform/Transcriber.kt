@@ -9,7 +9,8 @@ expect class Transcriber {
         filePath:String, language:String,
         onProgress : (Int) -> Unit,
         onNewSegment : (Long, Long,String) -> Unit,
-        onComplete : () -> Unit
+        onComplete : () -> Unit,
+        onError : () -> Unit
     )
     fun hasRecordingPermission(): Boolean
     suspend fun requestRecordingPermission():Boolean

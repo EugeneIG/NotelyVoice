@@ -98,7 +98,8 @@ actual class Transcriber(
         filePath: String, language: String,
         onProgress : (Int) -> Unit,
         onNewSegment : (Long, Long,String) -> Unit,
-        onComplete : () -> Unit
+        onComplete : () -> Unit,
+        onError : () -> Unit
     ) {
         if (!canTranscribe) {
             return
@@ -217,8 +218,13 @@ actual class Transcriber(
             if (isTranscribing) {
                 onComplete()
             }
-            
+
+        } catch (e: OutOfMemoryError) {
+            onError()
+            e.printStackTrace()
+            debugPrintln{"OutOfMemoryError: File too large to process - ${e.message}\n"}
         } catch (e: Exception) {
+            onError()
             e.printStackTrace()
             debugPrintln{"${e.localizedMessage}\n"}
         }

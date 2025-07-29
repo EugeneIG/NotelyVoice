@@ -15,4 +15,9 @@ expect class PlatformUtils {
         onResult: (Boolean, String?) -> Unit
     )
     fun requestStoragePermission(): Boolean
+    fun exportTextWithFilePicker(
+        text: String,
+        fileName: String,
+        onResult: (Boolean, String?) -> Unit
+    )
 }

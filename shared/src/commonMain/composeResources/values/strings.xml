@@ -13,6 +13,7 @@
     <string name="top_bar_my_note">My Note</string>
     <string name="top_bar_export_audio_folder">Export Audio to Folder</string>
     <string name="top_bar_import_audio">Import Audio</string>
+    <string name="top_bar_export_as_txt">Export Text as .txt</string>
 
     <!-- Delete Dialog -->
     <string name="confirmation">Confirm</string>

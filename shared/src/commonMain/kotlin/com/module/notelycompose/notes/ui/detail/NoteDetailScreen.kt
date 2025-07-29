@@ -171,7 +171,10 @@ fun NoteDetailScreen(
                     audioPlayerViewModel.releasePlayer()
                     audioImportViewModel.importAudio()
                 },
-                isRecordingExist = editorState.recording.isRecordingExist
+                isRecordingExist = editorState.recording.isRecordingExist,
+                onExportTextAsTxt = {
+                    platformViewModel.onExportTextAsTxt(editorState.content.text)
+                }
             )
         },
         floatingActionButton = {

@@ -11,18 +11,18 @@
     <string name="top_bar_notes">Notely Voice</string>
     <string name="top_bar_menu">Menu</string>
     <string name="top_bar_my_note">Ma note</string>
-    <string name="top_bar_export_audio_folder">Exporter l\'audio vers le dossier</string>
-    <string name="top_bar_import_audio">Importer l\'audio</string>
+    <string name="top_bar_export_audio_folder">Exporter l'audio vers le dossier</string>
+    <string name="top_bar_import_audio">Importer l'audio</string>
     <string name="top_bar_export_as_txt">Exporter le texte en .txt</string>
 
     <!-- Delete Dialog -->
     <string name="confirmation">Confirmer</string>
     <string name="confirmation_text">Voulez-vous supprimer la note ?</string>
-    <string name="recording_confirmation_text">Voulez-vous vraiment supprimer l\'enregistrement ?</string>
+    <string name="recording_confirmation_text">Voulez-vous vraiment supprimer l'enregistrement ?</string>
     <string name="confirmation_delete">Supprimer</string>
     <string name="confirmation_cancel">Annuler</string>
-    <string name="recording_replace_error">Vous avez déjà un enregistrement. En créer un nouveau l\'écrasera de façon irréversible. Voulez-vous continuer ?</string>
-    <string name="recording_import_error">Vous avez déjà un enregistrement. En importer un nouveau l\'écrasera de façon irréversible. Voulez-vous continuer ?</string>
+    <string name="recording_replace_error">Vous avez déjà un enregistrement. En créer un nouveau l'écrasera de façon irréversible. Voulez-vous continuer ?</string>
+    <string name="recording_import_error">Vous avez déjà un enregistrement. En importer un nouveau l'écrasera de façon irréversible. Voulez-vous continuer ?</string>
     <string name="recording_replace_continue">Continuer</string>
 
     <!-- BottomNavigationBar -->
@@ -53,7 +53,7 @@
     <string name="transcription_icon">Icône</string>
 
     <!-- Date Selection -->
-    <string name="note_detail_more_options">Plus d\'options</string>
+    <string name="note_detail_more_options">Plus d'options</string>
 
     <!-- Date Tab Bar -->
     <string name="date_tab_bar_all">Tout</string>
@@ -118,8 +118,8 @@
 
     <!-- Empty List String -->
     <string name="empty_list_title">Aucune note pour le moment</string>
-    <string name="empty_list_description">Commencez à recueillir vos pensées et vos enregistrements vocaux. Appuyez sur l\'icône plus + dans le coin inférieur droit pour créer votre première note.</string>
-    <string name="empty_list_description_tablet">Commencez à recueillir vos pensées et vos enregistrements vocaux.\nTouchez l\'icône plus + dans le coin inférieur droit pour créer votre première note.</string>
+    <string name="empty_list_description">Commencez à recueillir vos pensées et vos enregistrements vocaux. Appuyez sur l'icône plus + dans le coin inférieur droit pour créer votre première note.</string>
+    <string name="empty_list_description_tablet">Commencez à recueillir vos pensées et vos enregistrements vocaux.\nTouchez l'icône plus + dans le coin inférieur droit pour créer votre première note.</string>
 
     <!-- Share Dialog -->
     <string name="share_options">Options de partage</string>
@@ -128,7 +128,7 @@
 
     <!-- Download Dialog -->
     <string name="download_required">Téléchargement requis</string>
-    <string name="for_accurate_transcription">Pour une transcription fiable, nous devons télécharger le modèle d\'IA.</string>
+    <string name="for_accurate_transcription">Pour une transcription fiable, nous devons télécharger le modèle d'IA.</string>
     <string name="take_few_minutes">Ceci peut prendre quelques minutes et nécessite une connexion internet stable.</string>
     <string name="file_size_approx">Taille du fichier : Environ 142Mo</string>
     <string name="download">Télécharger</string>
@@ -142,10 +142,10 @@
     <string name="select_language">Sélectionner la langue</string>
     <string name="appearance">Apparence</string>
     <string name="theme">Thème</string>
-    <string name="choose_how_the_app_looks">Choisissez l\'apparence de l\'application</string>
+    <string name="choose_how_the_app_looks">Choisissez l'apparence de l'application</string>
     <string name="accessibility">Accessibilité</string>
     <string name="body_text_size">Taille du texte principal</string>
-    <string name="body_text_preferred_text">Définissez votre taille de texte préférée pour l\'éditeur de notes afin d\'améliorer votre expérience d\'écriture.</string>
+    <string name="body_text_preferred_text">Définissez votre taille de texte préférée pour l'éditeur de notes afin d'améliorer votre expérience d'écriture.</string>
     <string name="body_text_default">Par défaut</string>
     <string name="body_text_pt">%1$d pt</string>
 
@@ -180,7 +180,7 @@
 
     <!-- Accessibility -->
     <string name="accessibility_example">Exemple %1$d pt</string>
-    <string name="accessibility_desc">Utilisez le curseur pour définir la taille préférée du texte principal pour l\'éditeur de notes, personnalisez votre expérience.</string>
+    <string name="accessibility_desc">Utilisez le curseur pour définir la taille préférée du texte principal pour l'éditeur de notes, personnalisez votre expérience.</string>
     <string name="accessibility_a">A</string>
     <string name="accessibility_default">Par défaut : 14 pt</string>
 

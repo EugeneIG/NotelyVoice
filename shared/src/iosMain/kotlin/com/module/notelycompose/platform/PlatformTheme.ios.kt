@@ -1,5 +1,6 @@
 package com.module.notelycompose.platform
 
+import com.module.notelycompose.platform.pdf.IOSPdfGenerator
 import platform.Foundation.NSURL
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
@@ -13,7 +14,9 @@ import kotlinx.cinterop.usePinned
 import platform.Foundation.dataWithBytes
 import platform.Foundation.writeToURL
 
-actual class PlatformUtils {
+actual class PlatformUtils(
+    private val iOSPdfGenerator: IOSPdfGenerator
+) {
 
     actual fun shareText(text: String) {
         val activityViewController = UIActivityViewController(
@@ -134,12 +137,49 @@ actual class PlatformUtils {
         }
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     actual fun exportTextAsPDFWithFilePicker(
         text: String,
         fileName: String,
         textSize: Float,
         onResult: (Boolean, String?) -> Unit
     ) {
+        try {
+            val pdfGenerator = iOSPdfGenerator
 
+            val tempDir = platform.Foundation.NSTemporaryDirectory()
+            val pdfFileName = if (fileName.endsWith(".pdf")) fileName else "$fileName.pdf"
+            val tempFilePath = "$tempDir$pdfFileName"
+            val tempFileUrl = NSURL.fileURLWithPath(tempFilePath)
+
+            val pdfData = pdfGenerator.createPDFData(text, textSize)
+
+            val writeSuccess = pdfData.writeToURL(tempFileUrl, atomically = true)
+            if (!writeSuccess) {
+                onResult(false, "Failed to create PDF file")
+                return
+            }
+
+            val activityController = UIActivityViewController(
+                activityItems = listOf(tempFileUrl),
+                applicationActivities = null
+            )
+
+            activityController.popoverPresentationController?.let { popover ->
+                val rootViewController = UIApplication.sharedApplication.keyWindow?.rootViewController
+                popover.sourceView = rootViewController?.view
+                popover.sourceRect = CGRectMake(0.0, 0.0, 1.0, 1.0)
+            }
+
+            UIApplication.sharedApplication.keyWindow?.rootViewController?.presentViewController(
+                activityController,
+                animated = true,
+                completion = null
+            )
+
+            onResult(true, "PDF export options presented")
+        } catch (e: Exception) {
+            onResult(false, "PDF export failed: ${e.message}")
+        }
     }
 }

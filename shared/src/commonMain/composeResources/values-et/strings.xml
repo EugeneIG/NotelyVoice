@@ -133,4 +133,5 @@
     <string name="transcription_dialog_error_got_it">Selge, sain aru</string>
     <string name="transcription_dialog_error_audio_file_title">Helifail on liiga suur</string>
     <string name="transcription_dialog_error_audio_file_desc">See fail on liiga suur, et selles nutiseadmes temast märkmeid koostada. Proovi kasutada lühemat salvestust või väiksemat faili.</string>
+    <string name="top_bar_export_as_txt">Ekspordi tekst .txt failina</string>
 </resources>

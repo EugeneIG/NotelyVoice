@@ -62,6 +62,24 @@ class PlatformViewModel (
         }
     }
 
+    fun onExportTextAsTxt(text: String) {
+        if (text.isNotBlank()) {
+            val defaultFileName = "text_${Clock.System.now().toEpochMilliseconds()}.txt"
+            _state.value = _state.value.copy(isExporting = true)
+
+            platformUtils.exportTextWithFilePicker(
+                text = text,
+                fileName = defaultFileName
+            ) { success, message ->
+                _state.value = _state.value.copy(
+                    isExporting = false,
+                    exportSuccess = success,
+                    exportMessage = message ?: if (success) "Text exported successfully" else "Failed to export text"
+                )
+            }
+        }
+    }
+
     fun clearExportStatus() {
         _state.value = _state.value.copy(
             exportSuccess = null,

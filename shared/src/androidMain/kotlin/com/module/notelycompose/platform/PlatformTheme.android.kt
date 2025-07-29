@@ -79,6 +79,30 @@ actual class PlatformUtils(
         return context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
+    actual fun exportTextWithFilePicker(
+        text: String,
+        fileName: String,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        try {
+            fileSaverHandler.saveFile(fileName) { targetUri ->
+                try {
+                    val success = exportTextWithStorageAccessFramework(
+                        text = text,
+                        targetUri = targetUri
+                    )
+                    onResult(success, if (success) "Text file exported successfully" else "Failed to export text file")
+                } catch (e: Exception) {
+                    onResult(false, "Export failed: ${e.message}")
+                }
+            }
+        } catch (e: Exception) {
+            onResult(false, "Export failed: ${e.message}")
+        }
+    }
+
+    // Private functions:
+
     private fun exportRecordingWithStorageAccessFramework(
         sourcePath: String,
         targetUri: String
@@ -94,6 +118,22 @@ actual class PlatformUtils(
                 sourceFile.inputStream().use { inputStream ->
                     inputStream.copyTo(outputStream)
                 }
+            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    private fun exportTextWithStorageAccessFramework(
+        text: String,
+        targetUri: String
+    ): Boolean {
+        return try {
+            val uri = targetUri.toUri()
+            context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                outputStream.write(text.toByteArray(Charsets.UTF_8))
             }
             true
         } catch (e: Exception) {

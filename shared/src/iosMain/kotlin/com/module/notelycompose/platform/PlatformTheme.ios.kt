@@ -81,4 +81,12 @@ actual class PlatformUtils {
         // iOS doesn't require explicit storage permissions like Android
         return true
     }
+
+    actual fun exportTextWithFilePicker(
+        text: String,
+        fileName: String,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        onResult(false, "Export failed: ")
+    }
 }

@@ -58,6 +58,32 @@ This project uses [Weblate](https://hosted.weblate.org/projects/notelyvoice/) fo
 📱 **Share Audio Functionality** - Share audios recorded on the App to Messages, WhatsApp, Files, Google Drive etc  
 📱 **Share Texts** - Share texts on the App to Messages, WhatsApp, Files, Google Drive etc
 
+## Audio Processing Improvements
+
+### Memory-Efficient Audio Processing
+
+The app now includes memory-optimized audio processing to handle large files without Out of Memory (OOM) errors:
+
+1. **Streaming WAV Decoder**: Processes audio files in chunks instead of loading entire files into memory
+2. **Overlapping Chunk Transcription**: Splits long audio files into manageable chunks with overlap for seamless transcription
+3. **Configurable Chunk Sizes**: Adjustable chunk sizes based on device memory and performance requirements
+
+### Chunking Configuration
+
+The transcription process uses configurable parameters:
+
+- **Default Chunk Size**: 30 seconds per chunk
+- **Overlap Size**: 3 seconds overlap between chunks
+- **Maximum Chunk Size**: 60 seconds (configurable)
+- **Memory Buffer**: 1MB processing chunks
+
+### Benefits
+
+- **No More OOM Errors**: Large audio files (hours long) can be processed without memory issues
+- **Better Performance**: Smaller chunks process faster and use less memory
+- **Seamless Transcription**: Overlapping chunks ensure no text is lost at chunk boundaries
+- **Progressive Processing**: Real-time progress updates as chunks are processed
+
 ## Speech Recognition Technology
 
 - **OpenAI Whisper** - State-of-the-art open-source automatic speech recognition

@@ -23,12 +23,14 @@ fun FilterTabBar(
     onFilterTabItemClicked: (String) -> Unit,
     selectedTabTitle: String
 ) {
-    val titles = listOf(
-        stringResource(Res.string.date_tab_bar_all),
-        stringResource(Res.string.date_tab_bar_starred),
-        stringResource(Res.string.date_tab_bar_voices),
-        stringResource(Res.string.date_tab_bar_recent)
+    val tabResources = listOf(
+        Res.string.date_tab_bar_all,
+        Res.string.date_tab_bar_starred,
+        Res.string.date_tab_bar_voices,
+        Res.string.date_tab_bar_recent
     )
+    val titles = tabResources.map { stringResource(it) }
+
     val selectedTitle = selectedTabTitle.ifEmpty {
         titles[0]
     }

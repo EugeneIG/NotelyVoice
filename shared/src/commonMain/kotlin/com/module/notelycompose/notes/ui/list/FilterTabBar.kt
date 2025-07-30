@@ -20,8 +20,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FilterTabBar(
-    onFilterTabItemClicked: (String) -> Unit,
-    selectedTabTitle: String
+    onFilterTabItemClicked: (Int) -> Unit,
+    selectedTabIndex: Int
 ) {
     val tabResources = listOf(
         Res.string.date_tab_bar_all,
@@ -31,7 +31,7 @@ fun FilterTabBar(
     )
     val titles = tabResources.map { stringResource(it) }
 
-    val selectedTitle = selectedTabTitle.ifEmpty {
+    val selectedTitle = titles[selectedTabIndex].ifEmpty {
         titles[0]
     }
 
@@ -57,7 +57,8 @@ fun FilterTabBar(
             icons = icons,
             tabSelected = selectedTitle,
             onTabSelected = { title ->
-                onFilterTabItemClicked(title)
+                val onTabSelectedTabIndex = titles.indexOf(title)
+                onFilterTabItemClicked(onTabSelectedTabIndex)
             }
         )
     }

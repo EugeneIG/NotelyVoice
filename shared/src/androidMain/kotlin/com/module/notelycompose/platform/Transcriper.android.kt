@@ -61,11 +61,17 @@ actual class Transcriber(
         loadBaseModel()
     }
 
-    private fun loadBaseModel(){
-        debugPrintln{"Loading model...\n"}
-        val firstModel = File(modelsPath, "ggml-base.bin")
-        whisperContext = WhisperContext.createContextFromFile(firstModel.absolutePath)
-        canTranscribe = true
+    private fun loadBaseModel() {
+        try {
+            debugPrintln{"Loading model...\n"}
+            val firstModel = File(modelsPath, "ggml-base.bin")
+            whisperContext = WhisperContext.createContextFromFile(firstModel.absolutePath)
+            canTranscribe = true
+        } catch (e:RuntimeException){
+            e.printStackTrace()
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     actual fun doesModelExists() : Boolean{

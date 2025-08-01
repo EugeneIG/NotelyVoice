@@ -10,7 +10,7 @@ import androidx.core.net.toUri
 
 class AndroidPdfGenerator(private val context: Context) {
 
-    companion object Companion {
+    companion object {
         private const val PAGE_WIDTH = 612 // 8.5 inches * 72 points per inch
         private const val PAGE_HEIGHT = 792 // 11 inches * 72 points per inch
         private const val MARGIN = 72 // 1 inch margin
@@ -27,13 +27,12 @@ class AndroidPdfGenerator(private val context: Context) {
         return try {
             val pdfDocument = PdfDocument()
             val textPaint = createTextPaint(textSize)
-            val pages = splitTextIntoPages(text, textPaint, contentWidth, contentHeight)
+            val pages = splitTextIntoPages(text, textPaint)
 
             pages.forEachIndexed { pageIndex, pageText ->
                 addPageToPdf(pdfDocument, pageText, textPaint, pageIndex + 1)
             }
 
-            // Write PDF to target URI
             val uri = targetUri.toUri()
             context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                 pdfDocument.writeTo(outputStream)
@@ -74,7 +73,7 @@ class AndroidPdfGenerator(private val context: Context) {
             .setIncludePad(false)
             .build()
 
-        // Draw text on canvas
+        // Draw text on canvas with proper margins
         canvas.save()
         canvas.translate(MARGIN.toFloat(), MARGIN.toFloat())
         staticLayout.draw(canvas)
@@ -83,46 +82,50 @@ class AndroidPdfGenerator(private val context: Context) {
         pdfDocument.finishPage(page)
     }
 
-    private fun splitTextIntoPages(
-        text: String,
-        textPaint: TextPaint,
-        pageWidth: Int,
-        pageHeight: Int
-    ): List<String> {
+    private fun splitTextIntoPages(text: String, textPaint: TextPaint): List<String> {
         val pages = mutableListOf<String>()
-        val lineHeight = textPaint.fontSpacing
-        val maxLinesPerPage = (pageHeight / lineHeight).toInt()
 
-        val words = text.split(" ")
-        var currentPage = StringBuilder()
-        var currentLineCount = 0
-        var currentLineWidth = 0f
+        // Create a temporary StaticLayout to measure the full text
+        val fullLayout = StaticLayout.Builder
+            .obtain(text, 0, text.length, textPaint, contentWidth)
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setLineSpacing(0f, LINE_SPACING)
+            .setIncludePad(false)
+            .build()
 
-        for (word in words) {
-            val wordWidth = textPaint.measureText("$word ")
+        // Calculate maximum height per page (with some buffer for safety)
+        val maxHeightPerPage = contentHeight - 20 // 20pt buffer for safety
 
-            // Check if word fits on current line
-            if (currentLineWidth + wordWidth <= pageWidth) {
-                currentPage.append("$word ")
-                currentLineWidth += wordWidth
+        var currentHeight = 0f
+        var pageStartLine = 0
+
+        // Process line by line based on actual height
+        for (lineIndex in 0 until fullLayout.lineCount) {
+            val lineTop = fullLayout.getLineTop(lineIndex)
+            val lineBottom = fullLayout.getLineBottom(lineIndex)
+            val lineHeight = lineBottom - lineTop
+
+            // Check if adding this line would exceed page height
+            if (currentHeight + lineHeight > maxHeightPerPage && pageStartLine < lineIndex) {
+                // Create page from pageStartLine to current line
+                val startChar = fullLayout.getLineStart(pageStartLine)
+                val endChar = fullLayout.getLineStart(lineIndex)
+                val pageText = text.substring(startChar, endChar).trim()
+                pages.add(pageText)
+
+                // Start new page
+                pageStartLine = lineIndex
+                currentHeight = lineHeight.toFloat()
             } else {
-                // New line needed
-                currentPage.append("\n$word ")
-                currentLineCount++
-                currentLineWidth = wordWidth
-
-                // Check if page is full
-                if (currentLineCount >= maxLinesPerPage) {
-                    pages.add(currentPage.toString().trim())
-                    currentPage = StringBuilder()
-                    currentLineCount = 0
-                }
+                currentHeight += lineHeight
             }
         }
 
-        // Add remaining text as last page
-        if (currentPage.isNotEmpty()) {
-            pages.add(currentPage.toString().trim())
+        // Add remaining text as the last page
+        if (pageStartLine < fullLayout.lineCount) {
+            val startChar = fullLayout.getLineStart(pageStartLine)
+            val pageText = text.substring(startChar, text.length).trim()
+            pages.add(pageText)
         }
 
         return pages.ifEmpty { listOf("") }

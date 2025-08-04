@@ -11,12 +11,12 @@
     <string name="top_bar_export_audio_folder">Exporter l\'audio vers le dossier</string>
     <string name="top_bar_import_audio">Importer l\'audio</string>
     <string name="confirmation">Confirmer</string>
-    <string name="confirmation_text">Voulez-vous supprimer la note ?</string>
-    <string name="recording_confirmation_text">Voulez-vous vraiment supprimer l\'enregistrement ?</string>
+    <string name="confirmation_text">Voulez-vous supprimer la note ?</string>
+    <string name="recording_confirmation_text">Voulez-vous vraiment supprimer l\'enregistrement ?</string>
     <string name="confirmation_delete">Supprimer</string>
     <string name="confirmation_cancel">Annuler</string>
-    <string name="recording_replace_error">Vous avez déjà un enregistrement. En créer un nouveau l\'écrasera de façon irréversible. Voulez-vous continuer ?</string>
-    <string name="recording_import_error">Vous avez déjà un enregistrement. En importer un nouveau l\'écrasera de façon irréversible. Voulez-vous continuer ?</string>
+    <string name="recording_replace_error">Vous avez déjà un enregistrement. En créer un nouveau l\'écrasera de façon irréversible. Voulez-vous continuer ?</string>
+    <string name="recording_import_error">Vous avez déjà un enregistrement. En importer un nouveau l\'écrasera de façon irréversible. Voulez-vous continuer ?</string>
     <string name="recording_replace_continue">Continuer</string>
     <string name="bottom_navigation_starred">Favori</string>
     <string name="bottom_navigation_bullet_list">Liste à puces</string>
@@ -85,7 +85,7 @@
     <string name="download_required">Téléchargement requis</string>
     <string name="for_accurate_transcription">Pour une transcription fiable, nous devons télécharger le modèle d\'IA.</string>
     <string name="take_few_minutes">Ceci peut prendre quelques minutes et nécessite une connexion internet stable.</string>
-    <string name="file_size_approx">Taille du fichier : Environ 142Mo</string>
+    <string name="file_size_approx">Taille du fichier : Environ 142Mo</string>
     <string name="download">Télécharger</string>
     <string name="settings">Paramètres</string>
     <string name="customize_your_experience">Personnalisez votre expérience</string>

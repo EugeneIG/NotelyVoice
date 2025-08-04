@@ -119,18 +119,4 @@
     <string name="language_selection_supported_languages">支持的语言</string>
     <string name="language_selection_search">搜索</string>
     <string name="language_selection_select_language">选择语言</string>
-    <string name="body_text_default"></string>
-    <string name="transcription_dialog_error_got_it"></string>
-    <string name="accessibility_desc"></string>
-    <string name="accessibility_example"></string>
-    <string name="body_text_preferred_text"></string>
-    <string name="accessibility"></string>
-    <string name="transcription_dialog_error_audio_file_desc"></string>
-    <string name="accessibility_default"></string>
-    <string name="accessibility_a"></string>
-    <string name="transcription_dialog_error_audio_file_title"></string>
-    <string name="top_bar_export_as_txt"></string>
-    <string name="body_text_size"></string>
-    <string name="body_text_pt"></string>
-    <string name="navigate"></string>
 </resources>

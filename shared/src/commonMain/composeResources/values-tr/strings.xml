@@ -129,7 +129,7 @@
     <string name="download_required">İndirme Gerekli</string>
     <string name="for_accurate_transcription">Doğru yazıya döküm için AI modelini indirmemiz gerekiyor.</string>
     <string name="take_few_minutes">Bu birkaç dakika sürebilir ve kararlı bir internet bağlantısı gerektirir.</string>
-    <string name="file_size_approx">Dosya boyutu: yaklaşık 142MB</string>
+    <string name="file_size_approx">Dosya boyutu: yaklaşık 500MB</string>
     <string name="download">İndir</string>
 
     <!-- Settings Screen -->

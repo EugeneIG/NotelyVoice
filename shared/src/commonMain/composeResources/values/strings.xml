@@ -131,7 +131,7 @@
     <string name="download_required">Download Required</string>
     <string name="for_accurate_transcription">For accurate transcription, we need to download the AI model.</string>
     <string name="take_few_minutes">This may take a few minutes and requires a stable internet connection.</string>
-    <string name="file_size_approx">File size: approximately 142MB</string>
+    <string name="file_size_approx">File size: approximately 500MB</string>
     <string name="download">Download</string>
 
     <!-- Settings Screen -->

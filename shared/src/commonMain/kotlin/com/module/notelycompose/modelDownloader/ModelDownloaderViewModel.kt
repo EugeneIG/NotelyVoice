@@ -19,7 +19,7 @@ class ModelDownloaderViewModel(
     private val downloader: Downloader,
     private val transcriber: Transcriber,
 ):ViewModel(){
-    private val _uiState = MutableStateFlow(DownloaderUiState("ggml-base.bin"))
+    private val _uiState = MutableStateFlow(DownloaderUiState("ggml-small.bin"))
     val uiState: StateFlow<DownloaderUiState> = _uiState
 
     private val _effects = MutableSharedFlow<DownloaderEffect>()
@@ -44,7 +44,7 @@ class ModelDownloaderViewModel(
     fun startDownload() {
         viewModelScope.launch(Dispatchers.IO) {
             downloader.startDownload(
-                "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin",
+                "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin",
                 _uiState.value.fileName
             )
             trackDownload()

@@ -129,7 +129,7 @@
     <string name="download_required">Download erforderlich</string>
     <string name="for_accurate_transcription">Für eine genaue Transkription müssen wir das KI-Modell herunterladen.</string>
     <string name="take_few_minutes">Dies kann einige Minuten dauern und erfordert eine stabile Internetverbindung.</string>
-    <string name="file_size_approx">Dateigröße: etwa 142MB</string>
+    <string name="file_size_approx">Dateigröße: etwa 500MB</string>
     <string name="download">Herunterladen</string>
 
     <!-- Settings Screen -->

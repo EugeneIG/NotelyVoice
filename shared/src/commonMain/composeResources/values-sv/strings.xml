@@ -129,7 +129,7 @@
     <string name="download_required">Nedladdning krävs</string>
     <string name="for_accurate_transcription">För korrekt transkription behöver vi ladda ner AI-modellen.</string>
     <string name="take_few_minutes">Det här kan ta några minuter och kräver en stabil internetanslutning.</string>
-    <string name="file_size_approx">Filstorlek: cirka 142MB</string>
+    <string name="file_size_approx">Filstorlek: cirka 500MB</string>
     <string name="download">Ladda ner</string>
 
     <!-- Settings Screen -->

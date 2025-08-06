@@ -154,7 +154,7 @@ actual class Transcriber{
             NSUserDomainMask
         ).first() as NSURL
 
-        return documentsDirectory.URLByAppendingPathComponent("ggml-base.bin")?.path?:""
+        return documentsDirectory.URLByAppendingPathComponent("ggml-small.bin")?.path?:""
     }
 
 }

@@ -129,7 +129,7 @@
     <string name="download_required">Download Richiesto</string>
     <string name="for_accurate_transcription">Per una trascrizione accurata, dobbiamo scaricare il modello AI.</string>
     <string name="take_few_minutes">Questo potrebbe richiedere alcuni minuti e necessita di una connessione internet stabile.</string>
-    <string name="file_size_approx">Dimensione file: circa 142MB</string>
+    <string name="file_size_approx">Dimensione file: circa 500MB</string>
     <string name="download">Scarica</string>
 
     <!-- Settings Screen -->

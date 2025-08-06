@@ -72,7 +72,7 @@
     <string name="recording_ui_tap_start_record">Klõpsi salvestamise alustamiseks</string>
     <string name="recording_ui_tap_stop_record">Klõpsi salvestamise peatamiseks või lõpetamiseks</string>
     <string name="recording_ui_loading">laadin</string>
-    <string name="recording_ui_loading_rotation">laadin vahetust</string>
+    <string name="recording_ui_loading_rotation">laadimine on töös</string>
     <string name="recording_ui_checkmark">märkeruut</string>
     <!-- Player UI -->
     <string name="player_ui_initial_time">00:00</string>

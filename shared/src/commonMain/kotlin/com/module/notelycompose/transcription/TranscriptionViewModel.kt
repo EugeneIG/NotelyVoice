@@ -3,10 +3,12 @@ package com.module.notelycompose.transcription
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.module.notelycompose.core.debugPrintln
+import com.module.notelycompose.modelDownloader.ModelSelection
 import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.platform.Transcriber
 import com.module.notelycompose.summary.Text2Summary
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -17,7 +19,8 @@ const val SPACE_STR = " "
 
 class TranscriptionViewModel(
     private val transcriber: Transcriber,
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository,
+    private val modelSelection: ModelSelection
 ) :ViewModel(){
     private val _uiState = MutableStateFlow(TranscriptionUiState())
     val uiState: StateFlow<TranscriptionUiState> = _uiState
@@ -29,8 +32,9 @@ class TranscriptionViewModel(
     }
 
     fun initRecognizer() {
-        viewModelScope.launch {
-            transcriber.initialize()
+        viewModelScope.launch(Dispatchers.IO) {
+            val modelFileName = modelSelection.getSelectedModel()
+            transcriber.initialize(modelFileName.name)
         }
     }
 

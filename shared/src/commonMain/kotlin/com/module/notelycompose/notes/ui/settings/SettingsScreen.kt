@@ -64,12 +64,14 @@ import com.module.notelycompose.resources.body_text_default
 import com.module.notelycompose.resources.body_text_preferred_text
 import com.module.notelycompose.resources.body_text_size
 import com.module.notelycompose.resources.navigate
+import com.module.notelycompose.resources.transcription_model_selection
 
 @Composable
 fun SettingsScreen(
     navigateBack: () -> Unit,
     navigateToLanguages: () -> Unit,
     navigateToSettingsText: () -> Unit,
+    navigateToModelSelection: () -> Unit,
     preferencesRepository: PreferencesRepository = koinInject()
 ) {
     val language by preferencesRepository.getDefaultTranscriptionLanguage()
@@ -96,6 +98,13 @@ fun SettingsScreen(
             item {
                 LanguageRegionSection(
                     navigateToLanguages = navigateToLanguages,
+                    selectedLanguage = language
+                )
+            }
+
+            item {
+                LanguageModelSelectionSection(
+                    navigateToModelSelection = navigateToModelSelection,
                     selectedLanguage = language
                 )
             }
@@ -550,3 +559,36 @@ fun TextSizeSettingItem(
     }
 }
 
+@Composable
+private fun LanguageModelSelectionSection(
+    navigateToModelSelection: () -> Unit,
+    selectedLanguage: String
+) {
+    Column(
+        modifier = Modifier.clickable {
+            navigateToModelSelection()
+        }
+    ) {
+        Text(
+            text = stringResource(Res.string.transcription_model_selection),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = LocalCustomColors.current.bodyContentColor,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+
+        ModelOptionCard(
+            model = ModelOption(
+                title = "Standard model (multilingual)",
+                description = "Supports multiple languages with high accuracy",
+                size = "245 MB"
+            ),
+            isSelected = true,
+            hasSelection = false,
+            onClick = {
+                navigateToModelSelection()
+            },
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+    }
+}

@@ -129,7 +129,7 @@
     <string name="download_required">Descarga Requerida</string>
     <string name="for_accurate_transcription">Para una transcripción precisa, necesitamos descargar el modelo de IA.</string>
     <string name="take_few_minutes">Esto puede tomar unos minutos y requiere una conexión a internet estable.</string>
-    <string name="file_size_approx">Tamaño del archivo: aproximadamente 142MB</string>
+    <string name="file_size_approx">Tamaño del archivo: aproximadamente 500MB</string>
     <string name="download">Descargar</string>
 
     <!-- Settings Screen -->

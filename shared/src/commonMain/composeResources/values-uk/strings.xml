@@ -131,7 +131,7 @@
     <string name="download_required">Потрібно завантажити</string>
     <string name="for_accurate_transcription">Для точної транскрипції нам потрібно завантажити модель ШІ.</string>
     <string name="take_few_minutes">Це може зайняти декілька хвилин і потребує стабільного інтернет-з\'єднання.</string>
-    <string name="file_size_approx">Розмір файлу: приблизно 142MB</string>
+    <string name="file_size_approx">Розмір файлу: приблизно 500MB</string>
     <string name="download">Завантажити</string>
 
     <!-- Settings Screen -->

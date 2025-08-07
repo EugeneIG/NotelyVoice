@@ -17,16 +17,19 @@ import com.module.notelycompose.resources.Res
 import com.module.notelycompose.resources.download_required
 import com.module.notelycompose.resources.for_accurate_transcription
 import com.module.notelycompose.resources.take_few_minutes
-import com.module.notelycompose.resources.file_size_approx
 import com.module.notelycompose.resources.download
 import com.module.notelycompose.resources.cancel
+import com.module.notelycompose.modelDownloader.ModelSelection
+import com.module.notelycompose.modelDownloader.TranscriptionModel
 
 @Composable
 fun DownloadModelDialog(
     onDownload: () -> Unit,
     onCancel: () -> Unit,
+    transcriptionModel: TranscriptionModel,
     modifier: Modifier = Modifier
 ) {
+    
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onCancel,
@@ -39,7 +42,7 @@ fun DownloadModelDialog(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(stringResource(Res.string.take_few_minutes))
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(stringResource(Res.string.file_size_approx))
+                Text(transcriptionModel.getModelDownloadMessage())
             }
         },
         confirmButton = {

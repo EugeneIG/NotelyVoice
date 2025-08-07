@@ -129,7 +129,7 @@
     <string name="download_required">ダウンロードが必要</string>
     <string name="for_accurate_transcription">正確な文字起こしのために、AIモデルをダウンロードする必要があります。</string>
     <string name="take_few_minutes">これには数分かかる場合があり、安定したインターネット接続が必要です。</string>
-    <string name="file_size_approx">ファイルサイズ：約142MB</string>
+    <string name="file_size_approx">ファイルサイズ：約500MB</string>
     <string name="download">ダウンロード</string>
 
     <!-- Settings Screen -->

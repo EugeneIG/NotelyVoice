@@ -129,7 +129,7 @@
     <string name="download_required">Lataus vaaditaan</string>
     <string name="for_accurate_transcription">Tarkkaa transkriptiota varten meidän täytyy ladata tekoälymalli.</string>
     <string name="take_few_minutes">Tämä voi kestää muutaman minuutin ja vaatii vakaan internetyhteyden.</string>
-    <string name="file_size_approx">Tiedostokoko: noin 142MB</string>
+    <string name="file_size_approx">Tiedostokoko: noin 500MB</string>
     <string name="download">Lataa</string>
 
     <!-- Settings Screen -->

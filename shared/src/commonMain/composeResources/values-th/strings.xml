@@ -129,7 +129,7 @@
     <string name="download_required">จำเป็นต้องดาวน์โหลด</string>
     <string name="for_accurate_transcription">เพื่อการแปลงเป็นข้อความที่แม่นยำ เราจำเป็นต้องดาวน์โหลดโมเดล AI</string>
     <string name="take_few_minutes">อาจใช้เวลาสองสามนาทีและต้องการการเชื่อมต่ออินเทอร์เน็ตที่เสถียร</string>
-    <string name="file_size_approx">ขนาดไฟล์: ประมาณ 142MB</string>
+    <string name="file_size_approx">ขนาดไฟล์: ประมาณ 500MB</string>
     <string name="download">ดาวน์โหลด</string>
 
     <!-- Settings Screen -->

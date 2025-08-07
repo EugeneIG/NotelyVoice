@@ -104,7 +104,9 @@ kotlin {
 
     targets.all {
         compilations.all {
-            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
+            compilerOptions.configure {
+                freeCompilerArgs.add("-Xexpected-actual-classes")
+            }
         }
     }
 
@@ -210,7 +212,6 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            isShrinkResources = false
             isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

@@ -57,8 +57,8 @@ import com.module.notelycompose.resources.language_selection_select_language
 import org.jetbrains.compose.resources.stringResource
 
 val languageCodeMap = mapOf(
-    //"auto" to "Auto detect",
     "en" to "English",
+    "auto" to "Auto detect",
     "ar" to "Arabic",
     "ca" to "Catalan",
     "zh" to "Chinese",

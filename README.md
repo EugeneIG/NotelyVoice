@@ -5,7 +5,7 @@
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![](https://hosted.weblate.org/widget/notelyvoice/svg-badge.svg)](https://hosted.weblate.org/projects/notelyvoice/)
 
-A completely free modern, cross-platform note-taking application with powerful Whisper AI Voice to Text capabilities built with Compose Multiplatform.
+A completely free, modern, cross-platform, 100% private AI voice transcription & note-taking application with powerful Whisper AI Voice to Text capabilities built with Compose Multiplatform.
 
 Perfect for students capturing lectures, professionals documenting meetings, doctors recording patient notes, researchers transcribing interviews, and anyone needing accessible hands-free note-taking across all their devices.
 

@@ -7,6 +7,7 @@ import com.module.notelycompose.modelDownloader.ModelSelection
 import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.platform.Transcriber
 import com.module.notelycompose.summary.Text2Summary
+import com.module.notelycompose.transcription.textAnalysis.getSegmenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +47,8 @@ class TranscriptionViewModel(
                 _uiState.update { current ->
                     current.copy(inTranscription = true)
                 }
+                val transcriptionLanguage = preferencesRepository.getDefaultTranscriptionLanguage().first()
+                val segmenter = getSegmenter(transcriptionLanguage)
                 transcriber.start(
                     filePath, preferencesRepository.getDefaultTranscriptionLanguage().first(), onProgress = { progress ->
                         debugPrintln{"progress ========================= $progress"}
@@ -59,8 +62,10 @@ class TranscriptionViewModel(
                         val delimiter = if(_uiState.value.originalText.endsWith(".")) "\n\n" else SPACE_STR
                         debugPrintln{"\n text ========================= $text"}
                         _uiState.update { current ->
+                            // TODO: Verify this change
                             current.copy(
-                                originalText = "${_uiState.value.originalText}$delimiter${text.trim()}".trim(),
+                                // originalText = "${_uiState.value.originalText}$delimiter${text.trim()}".trim(),
+                                originalText = segmenter.segmentText("${_uiState.value.originalText.trim()}$delimiter${text.trim()}".trim()).joinToString("\n\n"),
                                 partialText = text
                             )
                         }

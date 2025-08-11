@@ -19,12 +19,12 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 
 @Composable
 fun ModelOptionCard(
     model: ModelOption,
     isSelected: Boolean,
+    hasSelection: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,9 +39,9 @@ fun ModelOptionCard(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) {
-                LocalCustomColors.current.modelSelectionBgColor // Light blue background when selected
+                Color(0xFFE3F2FD) // Light blue background when selected
             } else {
-                LocalCustomColors.current.modelSelectionBgColor // Light gray background when not selected
+                Color(0xFFF5F5F5) // Light gray background when not selected
             }
         ),
         border = if (isSelected) {
@@ -63,32 +63,34 @@ fun ModelOptionCard(
                     text = model.title,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LocalCustomColors.current.bodyContentColor,
+                    color = Color.Black,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
 
                 Text(
                     text = model.description,
                     fontSize = 14.sp,
-                    color = LocalCustomColors.current.modelSelectionDescColor,
+                    color = Color.Gray,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
                 Text(
                     text = model.size,
                     fontSize = 14.sp,
-                    color = LocalCustomColors.current.modelSelectionDescColor
+                    color = Color.Gray
                 )
             }
 
-            RadioButton(
-                selected = isSelected,
-                onClick = onClick,
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(0xFF2196F3),
-                    unselectedColor = Color.Gray
+            if(hasSelection) {
+                RadioButton(
+                    selected = isSelected,
+                    onClick = onClick,
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = Color(0xFF2196F3),
+                        unselectedColor = Color.Gray
+                    )
                 )
-            )
+            }
         }
     }
 }

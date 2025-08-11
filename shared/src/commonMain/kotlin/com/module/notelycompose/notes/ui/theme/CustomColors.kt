@@ -45,7 +45,5 @@ data class CustomColors(
     val shareDialogButtonColor: Color,
     val statusBarBackgroundColor: Color,
     val settingsBodyTextColor: Color,
-    val settingsBodyBorderColor: Color,
-    val modelSelectionDescColor: Color,
-    val modelSelectionBgColor: Color
+    val settingsBodyBorderColor: Color
 )

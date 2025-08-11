@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -28,8 +27,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -581,66 +577,18 @@ private fun LanguageModelSelectionSection(
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
-        SettingsModelOptionCard(
+        ModelOptionCard(
             model = ModelOption(
                 title = "Standard model (multilingual)",
                 description = "Supports multiple languages with high accuracy",
-                size = "139 MB"
+                size = "245 MB"
             ),
+            isSelected = true,
+            hasSelection = false,
             onClick = {
                 navigateToModelSelection()
             },
             modifier = Modifier.padding(bottom = 16.dp)
         )
-    }
-}
-
-@Composable
-fun SettingsModelOptionCard(
-    model: ModelOption,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            LocalCustomColors.current.modelSelectionBgColor
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, LocalCustomColors.current.bodyContentColor)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = model.title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = LocalCustomColors.current.bodyContentColor,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-
-                Text(
-                    text = model.description,
-                    fontSize = 14.sp,
-                    color = LocalCustomColors.current.modelSelectionDescColor,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-
-                Text(
-                    text = model.size,
-                    fontSize = 14.sp,
-                    color = LocalCustomColors.current.modelSelectionDescColor
-                )
-            }
-        }
     }
 }

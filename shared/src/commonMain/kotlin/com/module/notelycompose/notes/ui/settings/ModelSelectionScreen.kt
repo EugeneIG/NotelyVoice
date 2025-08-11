@@ -10,29 +10,23 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
 import com.module.notelycompose.notes.ui.detail.AndroidNoteTopBar
 import com.module.notelycompose.notes.ui.detail.IOSNoteTopBar
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
-import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.platform.getPlatform
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
 
 private const val HIDE_TIME_ELAPSE = 1500L
 
 data class ModelOption(
     val title: String,
     val description: String,
-    val size: String = ""
+    val size: String
 )
 
 @Composable
 fun ModelSelectionScreen(
-    navigateBack: () -> Unit,
-    preferencesRepository: PreferencesRepository = koinInject()
+    navigateBack: () -> Unit
 ) {
     val modelOptions = listOf(
         ModelOption(
@@ -48,12 +42,8 @@ fun ModelSelectionScreen(
     )
 
     var selectedModel by remember { mutableIntStateOf(0) } // Standard model selected by default
-    var modelSavedSelection by remember { mutableStateOf(NO_MODEL_SELECTION) }
-    val coroutineScope = rememberCoroutineScope()
-
-    LaunchedEffect(Unit) {
-        modelSavedSelection = preferencesRepository.getModelSelection().first()
-    }
+    var isProgressVisible by remember { mutableStateOf(false) }
+    var isCheckMarkVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -71,10 +61,21 @@ fun ModelSelectionScreen(
             )
         }
 
+        if (isProgressVisible) {
+            LinearProgressIndicator(
+                modifier = Modifier.padding(vertical = 12.dp).fillMaxWidth(),
+                strokeCap = StrokeCap.Round
+            )
+        } else {
+            Spacer(
+                modifier = Modifier.padding(vertical = 14.dp).fillMaxWidth()
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 12.dp)
+                .padding(horizontal = 24.dp, vertical = 8.dp)
         ) {
             // Title
             Text(
@@ -106,22 +107,34 @@ fun ModelSelectionScreen(
             modelOptions.forEachIndexed { index, model ->
                 ModelOptionCard(
                     model = model,
-                    isSelected = if(modelSavedSelection != NO_MODEL_SELECTION) {
-                        modelSavedSelection == index
-                    } else {
-                        selectedModel == index
-                    },
+                    isSelected = selectedModel == index,
                     onClick = {
                         selectedModel = index
-                        coroutineScope.launch {
-                            preferencesRepository.setModelSelection(selectedModel)
-                        }
-                        navigateBack()
+                        isProgressVisible = true
                     },
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
+
+            if(isCheckMarkVisible) {
+                Row (
+                    modifier = Modifier.padding(top = 20.dp)
+                ) {
+                    SavingBodyTextCheckMark()
+                }
+            }
         }
         // end of content
+    }
+
+    LaunchedEffect(isProgressVisible) {
+        if (isProgressVisible) {
+            delay(HIDE_TIME_ELAPSE)
+            isProgressVisible = false
+            isCheckMarkVisible = true
+        } else {
+            delay(HIDE_TIME_ELAPSE)
+            isCheckMarkVisible = false
+        }
     }
 }

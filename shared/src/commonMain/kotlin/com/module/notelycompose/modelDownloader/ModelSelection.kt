@@ -3,9 +3,6 @@ package com.module.notelycompose.modelDownloader
 import com.module.notelycompose.onboarding.data.PreferencesRepository
 import kotlinx.coroutines.flow.first
 
-const val NO_MODEL_SELECTION = -1
-const val STANDARD_MODEL_SELECTION = 0
-const val OPTIMIZED_MODEL_SELECTION = 1
 
 data class TranscriptionModel(val name:String, val size:String, val description:String, val url:String){
     fun getModelDownloadMessage():String = "File size: approximately $size\n$description"

@@ -43,8 +43,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
-import com.module.notelycompose.modelDownloader.OPTIMIZED_MODEL_SELECTION
 import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
 import com.module.notelycompose.notes.extension.intBodyFontSizes
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
@@ -85,8 +83,6 @@ fun SettingsScreen(
     val uiMode by preferencesRepository.getTheme().collectAsState(Theme.SYSTEM.name)
     val coroutineScope = rememberCoroutineScope()
     val bodyTextSize = preferencesRepository.getBodyTextSize().collectAsState(TEXT_SIZE_BODY).value
-    val modelSavedSelection = preferencesRepository.getModelSelection().collectAsState(
-        NO_MODEL_SELECTION).value
 
     Column(
         modifier = Modifier
@@ -113,7 +109,7 @@ fun SettingsScreen(
             item {
                 LanguageModelSelectionSection(
                     navigateToModelSelection = navigateToModelSelection,
-                    modelSavedSelection = modelSavedSelection
+                    selectedLanguage = language
                 )
             }
 
@@ -570,7 +566,7 @@ fun TextSizeSettingItem(
 @Composable
 private fun LanguageModelSelectionSection(
     navigateToModelSelection: () -> Unit,
-    modelSavedSelection: Int
+    selectedLanguage: String
 ) {
     Column(
         modifier = Modifier.clickable {
@@ -586,22 +582,11 @@ private fun LanguageModelSelectionSection(
         )
 
         SettingsModelOptionCard(
-            model = if(modelSavedSelection == OPTIMIZED_MODEL_SELECTION) {
-                ModelOption(
-                    title = "Optimized model (multilingual)",
-                    description = "Highest accuracy available\n" +
-                            "Supports Hindi and all other languages\n" +
-                            "Larger file size, slower performance",
-                    size = "139 MB"
-                )
-            } else {
-                ModelOption(
-                    title = "Standard model (multilingual)",
-                    description = "Faster performance and smaller file size\n" +
-                            "Supports multiple languages except Hindi",
-                    size = "139 MB"
-                )
-            },
+            model = ModelOption(
+                title = "Standard model (multilingual)",
+                description = "Supports multiple languages with high accuracy",
+                size = "139 MB"
+            ),
             onClick = {
                 navigateToModelSelection()
             },

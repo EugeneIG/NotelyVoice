@@ -18,7 +18,7 @@ class ModelSelection(private val preferencesRepository: PreferencesRepository) {
             "ggml-base-en.bin",
             "139 MB",
             "English-optimized model (faster, smaller)",
-            "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-en.bin"
+            "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin"
         ),
         TranscriptionModel(
             "ggml-base-hi.bin",

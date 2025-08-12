@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.module.notelycompose.modelDownloader.ENGLISH_MODEL
 import org.jetbrains.compose.resources.stringResource
 import com.module.notelycompose.resources.Res
 import com.module.notelycompose.resources.download_required
@@ -21,6 +22,9 @@ import com.module.notelycompose.resources.download
 import com.module.notelycompose.resources.cancel
 import com.module.notelycompose.modelDownloader.ModelSelection
 import com.module.notelycompose.modelDownloader.TranscriptionModel
+import com.module.notelycompose.resources.file_size_approx
+import com.module.notelycompose.resources.file_model_english
+import com.module.notelycompose.resources.file_model_hindi
 
 @Composable
 fun DownloadModelDialog(
@@ -29,6 +33,12 @@ fun DownloadModelDialog(
     transcriptionModel: TranscriptionModel,
     modifier: Modifier = Modifier
 ) {
+    val fileInfo = if(transcriptionModel.getModelDownloadType() == ENGLISH_MODEL) {
+        stringResource(Res.string.file_model_english)
+    } else {
+        stringResource(Res.string.file_model_hindi)
+    }
+    val fileSizeApprox = "${transcriptionModel.getModelDownloadSize()} "
     
     AlertDialog(
         modifier = modifier,
@@ -42,7 +52,7 @@ fun DownloadModelDialog(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(stringResource(Res.string.take_few_minutes))
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(transcriptionModel.getModelDownloadMessage())
+                Text(stringResource(Res.string.file_size_approx, ""))
             }
         },
         confirmButton = {

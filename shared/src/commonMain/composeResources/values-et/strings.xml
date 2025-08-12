@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Minu märge</string>
     <string name="top_bar_export_audio_folder">Ekspordi helifailid kausta</string>
     <string name="top_bar_import_audio">Impordi helifailid</string>
+    <string name="top_bar_export_as_pdf">Ekspordi tekst PDF-ina</string>
     <string name="top_bar_export_as_txt">Ekspordi tekstifailina</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Kinnita</string>

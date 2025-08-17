@@ -202,6 +202,8 @@ android {
         // Force deterministic file ordering
         jniLibs {
             useLegacyPackaging = true
+            // 16KB Page Size Support: Use uncompressed native libraries
+            pickFirsts += listOf("**/libc++_shared.so", "**/libwhisper.so")
         }
 
         // Ensure reproducible DEX files

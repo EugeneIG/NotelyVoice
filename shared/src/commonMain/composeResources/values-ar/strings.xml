@@ -133,7 +133,9 @@
     <string name="download_required">التنزيل مطلوب</string>
     <string name="for_accurate_transcription">للحصول على تفريغ دقيق، نحتاج إلى تنزيل نموذج الذكاء الاصطناعي.</string>
     <string name="take_few_minutes">قد يستغرق هذا بضع دقائق ويتطلب اتصالاً ثابتًا بالإنترنت.</string>
-    <string name="file_size_approx">حجم الملف: 500 ميجابايت تقريبًا</string>
+    <string name="file_size_approx">حجم الملف: %1$s ميجابايت تقريبًا</string>
+    <string name="file_model_english">نموذج متعدد اللغات (يدعم أكثر من 50 لغة)</string>
+    <string name="file_model_hindi">نموذج محسّن للهندية</string>
     <string name="download">تنزيل</string>
 
     <!-- Settings Screen -->

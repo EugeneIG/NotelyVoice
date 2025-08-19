@@ -146,7 +146,7 @@
     <string name="settings_dark_theme">Thème sombre</string>
     <string name="settings_system_default">Système</string>
     <string name="settings_change_language">Modifier la langue</string>
-    <string name="settings_change_default">Anglais</string>
+    <string name="settings_change_default">français</string>
     <string name="settings_transcription_language">Langue de transcription</string>
     <string name="settings_themes">Thèmes</string>
     <string name="settings_title">Paramètres</string>

@@ -40,8 +40,8 @@ class ModelSelection(private val preferencesRepository: PreferencesRepository) {
     suspend fun getSelectedModel(): TranscriptionModel {
         val defaultLanguage = preferencesRepository.getDefaultTranscriptionLanguage().first()
         return when (defaultLanguage) {
-            "en" -> models[0]
-            else -> models[1]
+            "hi" -> models[1]
+            else -> models[0]
         }
     }
 

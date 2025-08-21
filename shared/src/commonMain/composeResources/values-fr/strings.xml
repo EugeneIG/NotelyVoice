@@ -112,7 +112,9 @@
     <string name="download_required">Téléchargement requis</string>
     <string name="for_accurate_transcription">Pour une transcription fiable, nous devons télécharger le modèle d'IA.</string>
     <string name="take_few_minutes">Ceci peut prendre quelques minutes et nécessite une connexion internet stable.</string>
-    <string name="file_size_approx">Taille du fichier : Environ 142Mo</string>
+    <string name="file_size_approx">Taille du fichier : Environ %1$s</string>
+    <string name="file_model_english">Modèle multilingue (prend en charge plus de 50 langues)</string>
+    <string name="file_model_hindi">Modèle optimisé pour l'hindi</string>
     <string name="download">Télécharger</string>
     <!-- Settings Screen -->
     <string name="settings">Paramètres</string>

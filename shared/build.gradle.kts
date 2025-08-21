@@ -106,6 +106,8 @@ kotlin {
         compilations.all {
             compilerOptions.configure {
                 freeCompilerArgs.add("-Xexpected-actual-classes")
+                // For deterministic builds
+                freeCompilerArgs.add("-Xjsr305=strict")
             }
         }
     }
@@ -221,7 +223,14 @@ android {
             )
             // uncomment to run on release for testing
             // signingConfig = signingConfigs.getByName("debug")
+
+            // For reproducible builds
+            buildConfigField("String", "BUILD_TIME", "\"${System.getenv("SOURCE_DATE_EPOCH") ?: "1640995200"}\"")
         }
+    }
+    androidResources {
+        // Ensure deterministic resource compilation
+        noCompress.addAll(listOf("tflite", "lite"))
     }
     dependenciesInfo {
         // Disables dependency metadata when building APKs.

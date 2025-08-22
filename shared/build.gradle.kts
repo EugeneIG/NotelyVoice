@@ -148,6 +148,25 @@ kotlin {
         }
     }
 }
+
+fun getSourceDateEpoch(): String {
+    val sourceEpoch = System.getenv("SOURCE_DATE_EPOCH")
+    if (sourceEpoch != null) {
+        return sourceEpoch
+    }
+
+    // Fallback to git commit timestamp
+    try {
+        val gitTimestamp = providers.exec {
+            commandLine("git", "show", "-s", "--format=%ct", "HEAD")
+        }.standardOutput.asText.get().trim()
+        return gitTimestamp
+    } catch (e: Exception) {
+        println("Warning: Could not get git timestamp: ${e.message}")
+        return "1640995200"
+    }
+}
+
 compose.resources {
     publicResClass = true
     packageOfResClass = "com.module.notelycompose.resources"
@@ -225,7 +244,7 @@ android {
             // signingConfig = signingConfigs.getByName("debug")
 
             // For reproducible builds
-            buildConfigField("String", "BUILD_TIME", "\"${System.getenv("SOURCE_DATE_EPOCH") ?: "1640995200"}\"")
+            buildConfigField("String", "BUILD_TIME", "\"${getSourceDateEpoch()}\"")
         }
     }
     androidResources {

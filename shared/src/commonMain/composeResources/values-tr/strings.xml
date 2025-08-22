@@ -109,6 +109,7 @@
     <string name="share_audio_recording">Ses Kaydını Paylaş</string>
     <!-- Download Dialog -->
     <string name="download_required">İndirme Gerekli</string>
+    <string name="download_required_for_hindi">Hintçe için indirme gerekli</string>
     <string name="for_accurate_transcription">Doğru yazıya döküm için AI modelini indirmemiz gerekiyor.</string>
     <string name="take_few_minutes">Bu birkaç dakika sürebilir ve kararlı bir internet bağlantısı gerektirir.</string>
     <string name="file_size_approx">Dosya boyutu: yaklaşık %1$s</string>

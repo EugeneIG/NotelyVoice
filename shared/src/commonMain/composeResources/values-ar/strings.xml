@@ -113,6 +113,7 @@
     <string name="share_audio_recording">مشاركة التسجيل الصوتي</string>
     <!-- Download Dialog -->
     <string name="download_required">التنزيل مطلوب</string>
+    <string name="download_required_for_hindi">تنزيل مطلوب للهندية</string>
     <string name="for_accurate_transcription">للحصول على تفريغ دقيق، نحتاج إلى تنزيل نموذج الذكاء الاصطناعي.</string>
     <string name="take_few_minutes">قد يستغرق هذا بضع دقائق ويتطلب اتصالاً ثابتًا بالإنترنت.</string>
     <string name="file_size_approx">حجم الملف: %1$s ميجابايت تقريبًا</string>

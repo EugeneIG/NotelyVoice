@@ -110,6 +110,7 @@
     <string name="share_audio_recording">Partager un enregistrement audio</string>
     <!-- Download Dialog -->
     <string name="download_required">Téléchargement requis</string>
+    <string name="download_required_for_hindi">Téléchargement requis pour l'hindi</string>
     <string name="for_accurate_transcription">Pour une transcription fiable, nous devons télécharger le modèle d'IA.</string>
     <string name="take_few_minutes">Ceci peut prendre quelques minutes et nécessite une connexion internet stable.</string>
     <string name="file_size_approx">Taille du fichier : Environ %1$s</string>

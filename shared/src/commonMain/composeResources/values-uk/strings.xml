@@ -111,6 +111,7 @@
     <string name="share_audio_recording">Поділитися аудіозаписом</string>
     <!-- Download Dialog -->
     <string name="download_required">Потрібно завантажити</string>
+    <string name="download_required_for_hindi">Потрібне завантаження для гінді</string>
     <string name="for_accurate_transcription">Для точної транскрипції нам потрібно завантажити модель ШІ.</string>
     <string name="take_few_minutes">Це може зайняти декілька хвилин і потребує стабільного інтернет-з\'єднання.</string>
     <string name="file_size_approx">Розмір файлу: приблизно %1$s</string>

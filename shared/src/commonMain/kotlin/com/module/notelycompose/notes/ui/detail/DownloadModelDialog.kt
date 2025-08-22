@@ -16,6 +16,7 @@ import com.module.notelycompose.modelDownloader.HINDI_MODEL
 import org.jetbrains.compose.resources.stringResource
 import com.module.notelycompose.resources.Res
 import com.module.notelycompose.resources.download_required
+import com.module.notelycompose.resources.download_required_for_hindi
 import com.module.notelycompose.resources.for_accurate_transcription
 import com.module.notelycompose.resources.take_few_minutes
 import com.module.notelycompose.resources.download
@@ -38,11 +39,17 @@ fun DownloadModelDialog(
         stringResource(Res.string.file_model_english)
     }
 
+    val downloadRequired: String = if(transcriptionModel.getModelDownloadType() == HINDI_MODEL) {
+        stringResource(Res.string.download_required_for_hindi)
+    } else {
+        stringResource(Res.string.download_required)
+    }
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onCancel,
         title = {
-            Text(text = stringResource(Res.string.download_required))
+            Text(text = downloadRequired)
         },
         text = {
             Column {

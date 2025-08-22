@@ -109,6 +109,7 @@
     <string name="share_audio_recording">音声録音を共有</string>
     <!-- Download Dialog -->
     <string name="download_required">ダウンロードが必要</string>
+    <string name="download_required_for_hindi">ヒンディー語にはダウンロードが必要です</string>
     <string name="for_accurate_transcription">正確な文字起こしのために、AIモデルをダウンロードする必要があります。</string>
     <string name="take_few_minutes">これには数分かかる場合があり、安定したインターネット接続が必要です。</string>
     <string name="file_size_approx">ファイルサイズ：約 %1$s</string>

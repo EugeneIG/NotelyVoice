@@ -110,6 +110,10 @@ kotlin {
                 freeCompilerArgs.add("-Xjsr305=strict")
                 freeCompilerArgs.add("-Xno-param-assertions")
                 freeCompilerArgs.add("-Xno-call-assertions")
+                freeCompilerArgs.add("-Xno-receiver-assertions")
+                freeCompilerArgs.add("-Xno-optimize")
+                freeCompilerArgs.add("-Xassertions=jvm")
+                freeCompilerArgs.add("-Xuse-deterministic-jar-order")
             }
         }
     }
@@ -174,6 +178,14 @@ compose.resources {
     packageOfResClass = "com.module.notelycompose.resources"
     generateResClass = always
 }
+
+tasks.matching { it.name.contains("generateComposeResClass") }.configureEach {
+    doFirst {
+        System.setProperty("kotlin.collections.hash.seed", "0")
+        System.setProperty("java.util.HashMap.randomSeed", "0")
+    }
+}
+
 sqldelight {
     database("NoteDatabase") {
         packageName = "com.module.notelycompose.database"

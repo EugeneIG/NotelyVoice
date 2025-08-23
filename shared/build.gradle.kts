@@ -108,6 +108,8 @@ kotlin {
                 freeCompilerArgs.add("-Xexpected-actual-classes")
                 // For deterministic builds
                 freeCompilerArgs.add("-Xjsr305=strict")
+                freeCompilerArgs.add("-Xno-param-assertions")
+                freeCompilerArgs.add("-Xno-call-assertions")
             }
         }
     }
@@ -236,10 +238,6 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             isDebuggable = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
             // uncomment to run on release for testing
             // signingConfig = signingConfigs.getByName("debug")
 
@@ -250,6 +248,7 @@ android {
     androidResources {
         // Ensure deterministic resource compilation
         noCompress.addAll(listOf("tflite", "lite"))
+        generateLocaleConfig = false
     }
     dependenciesInfo {
         // Disables dependency metadata when building APKs.
